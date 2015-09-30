@@ -19,7 +19,7 @@
          </div>
          <div class="panel panel-default">
             <div class="panel-heading">
-               <h3 class="panel-title">Suggested agenda for a one day Azure Camp with Hands On Labs (HOLs)</h3>
+               <h3 class="panel-title">Beispielagenda for a one day Azure Camp with Hands On Labs (HOLs)</h3>
             </div>
             <div class="panel-body">
                <table class="table table-bordered table-hover">
