@@ -1,4 +1,4 @@
-﻿Working with the Management Portal
+﻿Arbeiten mit dem Management Portal
 ========================================
 
 The Azure Management Portal is your one-stop-shop for creating and managing new cloud resources, like websites, virtual machines, and storage accounts. Once you get started, the portal will be your home to configure, monitor, and scale your resources with ease and agility.
