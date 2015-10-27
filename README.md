@@ -1,15 +1,15 @@
-<html lang="en">
+﻿<html lang="en">
    <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Azure Readiness: DevCamp</title>
+      <title>TechSummit 2015, Workshop: Azure für Entwickler</title>
 	  <link rel="stylesheet" href="style.css">
    </head>
    <body id="home">
       <div class="container">
          <div class="jumbotron">
-            <h1>Azure DevCamp</h1>
+            <h1>TechSummit 2015<br/>Workshop: Azure für Entwickler</h1>
             <p>July 2015 release. Source: <a href="http://aka.ms/azure-devcamp">http://aka.ms/azure-devcamp</a></p>
             <p>
                <a href="http://aka.ms/CloudCamp-AzureTrial" class="btn btn-success">Sign up for Microsoft Azure</a>

@@ -1,12 +1,12 @@
-﻿Setting up your environment for the labs
-========================================
-In this lab you will find the prerequisites and steps to help you set up your computer. After completing the lab you will have a working environment, ready for the other labs.
+﻿Hinweise zum Einrichten der Entwicklungsumgebung für die Labs
+=============================================================
+Dieses Dokument enthält alle Informationen zum Einrichten aller benötigten Tools und Komponenten, die für den Workshop benötigt werden. Nach Durcharbeiten dieser Dokumentation haben Sie eine Umgebung, mit der Sie die einzelnen Hands-on-Labs des Workshops durchführen können.
 
-Configure your computer
------------------------
+Einrichten Ihres Computers
+--------------------------
 
-### Install Visual Studio Ultimate 2015 Preview
-To run these Introduction to Microsoft Azure labs, **Visual Studio 2015 Preview** is required. It can be downloaded and installed from [here](http://www.visualstudio.com/en-us/downloads/visual-studio-2015-downloads-vs.aspx).
+### Installation der Visual Studio 2015 Community Edition
+To run these Introduction to Microsoft Azure labs, **Visual Studio 2015 Preview** is required. It can be downloaded and installed from [here](https://go.microsoft.com/fwlink/?LinkId=532606&clcid=0x409).
 
 Alternatively, you can use Visual Studio 2013, provided the following have been installed:
 
