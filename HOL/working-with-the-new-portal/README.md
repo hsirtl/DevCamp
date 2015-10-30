@@ -1,4 +1,4 @@
-﻿Arbeiten mit dem Azur Preview Portal
+﻿Arbeiten mit dem Azure Preview Portal
 ====================================
 
 Das neue Azure Preview Portal is ein gegenüber dem Management Portal vollständig überarbeitetes Portal. Mit diesem können nahezu alle Arten von Azure Services angelegt, konfiguriert und überwacht werden.
