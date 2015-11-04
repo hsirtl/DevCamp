@@ -2,7 +2,8 @@
 =======================================================================================
 
 **Azure DocumentDB** ist ein vollständig verwalteter und hochskalierbarer NoSQL-Dokumentendatenbankdienst, der von Azure bereitgestellt wird. 
-DocumentDB ermöglicht die Entwicklung von Anwendungen mit umfangreiche Abfragen und Transaktionen, die für schemafreie JSON Daten ausgeführt werden, die Skalierung von Speicher und Durchsatz, sowie die Erweiterung durch JavaScript. 
+Mit DocumentDB sind Sie in der Lage, moderne und skalierbare mobile Apps und Webanwendungen zu erstellen, die sich durch eine zuverlässige Abfrageleistung und transaktionale Datenverarbeitung auszeichnen.
+DocumentDB wurde von Grund auf für eine systemeigene Unterstützung von JSON und JavaScript innerhalb des Datenbankmoduls entwickelt. 
 Mehr Informationen über die DocumentDB lassen sich online finden unter: [Microsoft Azure DocumentDB](http://azure.microsoft.com/de/services/documentdb/).
 
 In diesem Lab werden Sie lernen, wie man eine ToDo-Liste als Webapplikation mit Azure DocumentDB erstellt. Die Aufgabenelemente werden als JSON Dokumente in der Azure DocumentDB gespeichert. Bei der Webapplikation handelt es sich um eine C# MVC Applikation, in welcher Sie basis CRUD Operationen mit Methoden verbinden, die DocumentDB benutzen, und werden die Applikation abschließend als Azure Website veröffentlichen.
