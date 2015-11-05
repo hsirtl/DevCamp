@@ -7,31 +7,31 @@ Dieses Lab enthält die folgenden Abschnitte:
 1. [Erstellen einer ASP.NET Web Anwendung in Visual Studio](#Task1)
 1. [Veröffentlichen der Anwendung auf Azure](#Task2)
 1. [Durchführen von Änderungen und Neuveröffentlichung](#Task3)
-1. [Monitor and manage the site in the preview portal Überwachen und Verwalten der Seite im Preview Portal](#Task4)
+1. [Überwachen und Verwalten der Seite im Preview Portal](#Task4)
 1. [Anhang - Aufräumen](#cleanup)
 
 <a name="Task1"></a>
 ## Erstellen einer ASP.NET Web Anwendung in Visual Studio
 
-In this task you will create the web application that is going to be used throughout this lab.
+In diesem Schritt werden Sie die Web Anwendung erstellen, die in diesem Lab verwendet wird.
 
-1. Open Visual Studio. From the **File** menu, hover over the **New** option and click **Project**.
+1. Öffnen Sie Visual Studio. Aus dem **File** Menü, wählen Sie die **New** Option und klicken Sie **Project**.
 
 	![New Project in File menu](./images/newProject.png)
 
-    _New Project in File menu_
+    _New Project im File Menü_
 
-2. In the **New Project** dialog box, expand **C#** and select **Web** under **Installed Templates**, and then select **ASP.NET Web Application**.
+2. Im **New Project** Dialog, erweitern Sie **Visual C#** und wählen Sie **Web** unter **Installed Templates**, wähnen Sie dann **ASP.NET Web Application** aus.
 
-3. Name the application **ContactManager** and click **OK**.
+3. Nennen Sie die Anwendung **ContactManager** und klicken Sie auf **OK**.
 
 	![New Project dialog box](./images/newProject-dialog.png)
 
-    _New Project dialog box_
+    _New Project Dialog_
 
-	>**Note:** Make sure you enter "ContactManager". Code blocks that you will be copying later assume that the project name is ContactManager.
+	>**Hinweis:** Stellen Sie sicher, dass Sie das Projekt "ContactManager" nennen. Code-Blöcke, die Sie später kopieren werden, gehen davon aus, dass der Name des Projekts ContactManager ist. 
 
-4. In the **New ASP.NET Project** dialog box, select the **MVC** template. Verify **Authentication** is set to **Individual User Accounts**, **Host in the cloud** is checked and **Web App** is selected. Then, click **OK**.
+4. Im **New ASP.NET Project** Dialog wählen Sie das **MVC** Template im Bereich ASP.NET 4.5. Stellen Sie sicher, dass **Authentication** auf **Individual User Accounts** gestellt ist, **Host in the cloud** markiert und **Web App** ausgewählt ist. Klicken Sie dann auf **OK**.
 
 	![New ASP.NET Project dialog box](./images/newProject-dialog-2.png)
 
