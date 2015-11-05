@@ -35,24 +35,25 @@ In diesem Schritt werden Sie die Web Anwendung erstellen, die in diesem Lab verw
 
 	![New ASP.NET Project dialog box](./images/newProject-dialog-2.png)
 
-    _New ASP.NET Project dialog box_
+    _New ASP.NET Project Dialog_
 
-5. If you haven't already signed in to Azure, Visual Studio prompts you to do so. Click **Sign In**. Follow the prompts and provide your credentials.
+5. Falls Sie sich noch nicht bei Microsoft Azure angemeldet haben, fordert Sie Visual Studio nun auf dies zu tun. Klicken Sie auf **Sign In**. Folgen Sie den Anweisungen und melden Sie sich mit Ihren Benutzerdaten an.
 
 	![Sign in to Azure](./images/sign-to-Azure.png)
 
-    _Sign in to Azure_
+    _Anmelden bei Azure_
 
-6. The configuration wizard will suggest a unique name based on *ContactManager* (see the image below). Select a region near you. You can use [azurespeed.com](http://www.azurespeed.com/ "AzureSpeed.com") to find the lowest latency data center.
-7. If you haven't created a database server before, select **Create new server**, enter a database user name and password.
+6. Wählen Sie einen Namen für die Bereitstellungs-URL aus, erstellen Sie einen neuen **App Service Plan**, eine neue **Resource Group** und wählen Sie eine Rechenzentrumsregion aus. Sie können [azurespeed.com](http://www.azurespeed.com/ "AzureSpeed.com") nutzen, um die Region mit den besten Antwortzeiten zu ermitteln.
+
+7. Erstellen Sie zudem eine neue Datenbank, indem Sie nach Auswahl von **Create new server** Datenbankname, Benutzername und Passwort festlegen.
 
 	![Configure Azure Web App](./images/configure-azure1.png)
 
     _Configure Azure Web App_
 
-	If you have a database server, use that to create a new database. Database servers are a precious resource, and you generally want to create multiple databases on the same server for testing and development rather than creating a database server per database. Make sure your Web App and database are in the same region.
-
-8. Click **OK**.
+	In der Regel ist es zu empfehlen für Test und Entwicklung mehrere Datenbanken auf dem gleichen Server anzulegen, statt für jede Datenbank einen neuen Server zu erstellen. Die Datenbank und Ihre Web App sollten sich in der gleichen Region befinden.
+	
+8. Klicken Sie dann auf **OK**.
 
 	In a few seconds, Visual Studio creates the web project in the folder you specified, and it creates the Web App in the Azure region you specified.
 
