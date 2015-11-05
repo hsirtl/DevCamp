@@ -1,16 +1,17 @@
-﻿# Getting started with Azure App Service Web Apps and ASP.NET
+﻿# Arbeiten mit Azure App Service Web Apps und ASP.NET
 
-This lab shows how to create an ASP.NET web application and deploy it to an Azure App Service Web App by using Visual Studio 2015 Preview. It assumes that you have no prior experience using Azure or ASP.NET. On completing the lab, you will have a simple web application up and running in the cloud.
+Dieses Lab führt durch das Erstellen einer ASP.NET Web Anwendung und die Veröffentlichung auf einer Azure Azure Service Web App mit Visual Studio 2015. Hierbei ist kein Vorwissen im Bereich Azure oder ASP.NET nötig. Am Ende des Labs werden Sie eine einfache Webanwendung in der Cloud betreiben.
 
-This lab includes the following sections:
+Dieses Lab enthält die folgenden Abschnitte:
 
-1. [Create an ASP.NET web application in Visual Studio](#create-an-aspnet-web-application)
-1. [Deploy the application to Azure](#deploy-the-application-to-azure)
-1. [Make a change and redeploy](#make-a-change-and-redeploy)
-1. [Monitor and manage the site in the preview portal](#monitor-and-manage-the-site-in-the-management-portal)
-1. [Appendix - Cleanup](#cleanup)
+1. [Erstellen einer ASP.NET Web Anwendung in Visual Studio](#Task1)
+1. [Veröffentlichen der Anwendung auf Azure](#Task2)
+1. [Durchführen von Änderungen und Neuveröffentlichung](#Task3)
+1. [Monitor and manage the site in the preview portal Überwachen und Verwalten der Seite im Preview Portal](#Task4)
+1. [Anhang - Aufräumen](#cleanup)
 
-## Create an ASP.NET web application
+<a name="Task1"></a>
+## Erstellen einer ASP.NET Web Anwendung in Visual Studio
 
 In this task you will create the web application that is going to be used throughout this lab.
 
