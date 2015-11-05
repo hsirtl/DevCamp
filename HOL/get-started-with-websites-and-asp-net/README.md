@@ -267,7 +267,7 @@ Das [Azure Preview Portal](https://portal.azure.com/) ist ein Webinterface, mit 
 	Dies sind nur einige wenige Funktionen des Management Portals. Sie können außerdem existierende Apps löschen, stoppen und neu starten, sowie alle anderen Azure Dienste verwalten.
 
 <a name="cleanup"></a>
-##Appendix - Cleanup
+##Anhang - Aufräumen
 
 In diesem Schritt werden wir die gerade angelegte Web App wieder löschen und im Portal wieder aufräumen.
 
