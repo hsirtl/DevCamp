@@ -71,89 +71,90 @@ In diesem Schritt werden Sie die Web Anwendung erstellen, die in diesem Lab verw
 
 	Sie können die Web App nun auch im **Cloud Explorer" sehen.
 
-	> **Hinweis:** Wenn der Cloud-Explorer nicht angezeigt wird, können Sie ihn über das **View** Manü einblenden.
+	> **Hinweis:** Wenn der Cloud-Explorer nicht angezeigt wird, können Sie ihn über das **View** Menü einblenden.
 
 	![Web App created](./images/cloud-explorer.png)
 
     _Web App im Cloud Explorer_
 
-## Deploy the application to Azure
+<a name="Task2"></a>
+## Veröffentlichen der Anwendung auf Azure
 
-1. In the **Azure App Service Activity** window, click **Publish ContactManager to this Web App now**.
+1. Im **Azure App Service Activity** Fenster, klickek Sie auf **Publish ContactManager to this Web App now**. Falls diese Schaltfläche nicht angezeigt wird, können Sie auch mit der Rechten Maustaste auf das Projekt im **Solution Explorer** klickt und dann auf den Punkt **Publish**.
 
 	![Web App created](./images/web-publish-view-2.png)
 
-    _Azure App Service Activity Window_
+    _Azure App Service Activity Fenster
 
-	In a few seconds the **Publish Web** wizard appears.
+	Innerhalb von wenigen Sekunden erscheint der **Publish Web** Dialog.
+	
+	Die Einstellungen, welche Visual Studio für einen Veröffentlung des Projektes benötigt, wurden in einem *Publish Profile* gespeichert. In diesem Dialog können wir nun die diese Einstellungen prüfen. Klicken Sie dafür auf **Next**.
 
-	The settings that Visual Studio needs to deploy your project to Azure have been saved in a *publish profile*. The wizard enables you to review and change those settings.
-
-2. In the **Connection** tab of the **Publish Web** wizard, click **Validate Connection** to make sure that Visual Studio can connect to Azure in order to deploy the web project.
+2. In der Registerkarte **Connection** des **Publish Web** Dialogs, können Sie nun auf **Validate Connection** klicken, um sicher zu gehen, dass Visual Studio sich zu Azure verbinden kann.
 
 	![Validate connection](./images/validate-connection.png)
 
-    _Validating the connection_
+    _Prüfen der Verbindung_
 
-	When the connection has been validated, a green check mark is shown next to the **Validate Connection** button.
-
-3. Click **Next**.
+	Wenn die Verbindung erfolgreich geprüft wurden, wird ein grüner Haken angezeigt.
+	
+3. Klicken Sie nun auf **Next**.
 
 	![Successfully validated connection](./images/validate-connection-2.png)
 
-	_Successfully validated connection_
+	_Die Verbindung wurde erfolgreich geprüft_
 
-4. The **Settings** tab is shown. If you expand **File Publish Options** you will see several settings that enable you to handle scenarios that don't apply to this lab:
+4. Nun wird die Registerkarte **Settings** angezeigt. Wenn Sie nun **File Publish Options** erweitern, sehen Sie weitere Einstellungsmöglichkeiten. Diese sind jedoch für dieses Lab nicht relevant.
 
 	* **Remove additional files at destination**.
 
-		Deletes any files at the server that aren't in your project. You might need this if you were deploying a project to a site that you had deployed a different project to earlier.
+		Löscht Dateien auf dem Server, die nicht in Ihrem Projekt sind. Sie könnten diese Einstellunge benötigen, wenn Sie ein Projekt auf eine Seite veröffentlichen, die Sie zuvor für ein anderen Projekt benutzt haben.
 
 	* **Precompile during publishing**.
 
-		Can reduce first-request warm up times for large sites.
+		Kann die Startzeit beim ersten Request für große Seiten verkürzen.
 
 	* **Exclude files from the App_Data folder**.
 
-		For testing you sometimes have a SQL Server database file in App_Data which you don't want to deploy to production.
+		Zum Testen wird manchmal eine SQL Server Datenbankdatei im Ordner App_Data verwendet, welche nicht in die Produktionsumgebung kopiert werden soll.
 
-	In this case, keep the default values for **Configuration** and **File Publish Options** and click **Next**.
+	In disem Fall belassen wir es bei den Standardwerten für **Configuration** and **File Publish Options** und klicken auf **Next**.
 
 	![Settings tab](./images/publishing-settings.png)
 
-    _Settings tab_
+    _Registerkarte Settings_
 
-5. In the **Preview** tab, click **Start Preview**.
+5. Klicken Sie in der Registerkarte **Preview** auf **Start Preview**.
 
 	![StartPreview button in the Preview tab](./images/start-preview.png)
 
-	_Start Preview button - Preview tab_
+	_Start Preview Button_
 
-	The tab displays a list of the files that will be copied to the server. Displaying the preview isn't required to publish the application but it's a useful function to be aware of.
+	Die Registerkarte zeigt eine Liste der Deteien an, welche auf den Server kopiert werden. Ein Anzeigen der Preview ist für das veröffentlichen einer Anwendung auf Azure nicht zwingend erforderlich.
 
-6. Click **Publish**.
+6. Klicken Sie auf **Publish**.
 
 	![StartPreview file output](./images/click-publish.png)
 
-	_File Preview_
+	_Dateivorschau_
 
-	Visual Studio begins the process of copying the files to the Azure server.
+	Visual Studio beginnt nun damit die Dateien auf den Azure Server zu kopieren.
 
-	The **Output** and **Azure App Service Activity** windows show what deployment actions were taken and report successful completion of the deployment.
+	Das **Output** und **Azure App Service Activity** Fenster zeigt welche Schritte der Veröffentlichung gerade durchlaufen werden und zeigt nach erfolgreicher Veröffentlichung eine Benachrichtigung an.
 
 	![Azure App Service Activity](./images/publish-output.png)
 
-    _Azure App Service Activity reporting successful deployment_
+    _Azure App Service Activity nach erfolgreicher Veröffentlichung_
 
 	![Output window](./images/output-window.png)
 
-	  _Output Window reporting successful deployment_
+	  _Output Window nach erfolgreicher Veröffentlichung_
 
-	Upon successful deployment, the default browser automatically opens to the URL of the deployed Web App, and the application that you created is now running in the cloud. The URL in the browser address bar shows that the site is being loaded from the Internet.
-
+	Nach der erfolgreichen Veröffentlichung öffnet der eingestellte Standardbrowser die URL der veröffentlichten Web App. Die gerade erstellte Anwendung läuft nun in der Cloud. Die URL in der Browser Adresszeile zeigt, dass die Seite aus dem Internet geladen wird.
+	
 	![Web App running in Azure](./images/publish-success.png)
 
-	_Web App running in Azure_
+	_Die Web App läuft in Azure_
 
 7. Close the browser.
 
