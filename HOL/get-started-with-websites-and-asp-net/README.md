@@ -55,27 +55,27 @@ In diesem Schritt werden Sie die Web Anwendung erstellen, die in diesem Lab verw
 	
 8. Klicken Sie dann auf **OK**.
 
-	In a few seconds, Visual Studio creates the web project in the folder you specified, and it creates the Web App in the Azure region you specified.
-
-	The **Solution Explorer** window shows the files and folders in the new project.
+	In wenigen Sekunden erzeugt Visual Studio ein Web Projekt in gewählen Ordner. Es wird außerdem eine Azure Web in der gewählten Region erstellt.
+	
+	Der **Solution Explorer** zeigt nun die Dateien und Ordner im neuen Projekt.
 
 	![Solution Explorer](./images/solution-explorer.png)
 
 	_Solution Explorer_
 
-	The **Azure App Service Activity** window shows that the Web App has been created.
+	Das **Azure App Service Activity** Fenster zeigt, dass die Web App erstellt wurde.
 
 	![Web App created](./images/web-publish-view.png)
 
-	_Web App created_
+	_Web App erstellt
 
-	And you can see the Web App and database in **Server Explorer**.
+	Sie können die Web App nun auch im **Cloud Explorer" sehen.
 
-	> **Note:** if the Server Explorer window is not open, you can open it from the **View** menu.
+	> **Hinweis:** Wenn der Cloud-Explorer nicht angezeigt wird, können Sie ihn über das **View** Manü einblenden.
 
-	![Web App created](./images/server-explorer.png)
+	![Web App created](./images/cloud-explorer.png)
 
-    _Web App created_
+    _Web App im Cloud Explorer_
 
 ## Deploy the application to Azure
 
