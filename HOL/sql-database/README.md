@@ -1,7 +1,7 @@
 ﻿Schnellstart in die Nutzung Azure SQL Database Elastic Scale
 =======================================================================================
 
-Wachsenden und schrumpfende Kapazitäten, welche sich am tatsächlichen Bedarf orientieren, sind eines der Kernversprechen von Cloud Computing. Diesem Versprechen gerecht zu werden war in der Vergangheit für die Datenbankschicht von Cloud Anwendugnen jedoch oft mühsam und komplex. Über die letzten Jahre hat sich in der Industrie hierfür ein Entwurfsmuster etabliert, welches als "Sharding* bekannt ist. Obwohl das allgemeine Sharding-Entwurfsmuster viele der Herausforderungen löst, sind für die Entwicklung und den Betrieb von Anwendungen die dieses nutzen, unabhängig von der Business Logic immer noch nennenswerte Investitionen in die Infrastruktur nötig.
+Wachsenden und schrumpfende Kapazitäten, welche sich am tatsächlichen Bedarf orientieren, sind eines der Kernversprechen von Cloud Computing. Diesem Versprechen gerecht zu werden war in der Vergangheit für die Datenbankschicht von Cloud Anwendugnen jedoch oft mühsam und komplex. Über die letzten Jahre hat sich in der Industrie hierfür ein Entwurfsmuster etabliert, welches als *Sharding* bekannt ist. Obwohl das allgemeine Sharding-Entwurfsmuster viele der Herausforderungen löst, sind für die Entwicklung und den Betrieb von Anwendungen die dieses nutzen, unabhängig von der Business Logic immer noch nennenswerte Investitionen in die Infrastruktur nötig.
 
 Azure SQL Database Elastic Scale ermöglicht es der Datenschicht einer Anwendung, auf Basis von in der Industrie etablierten Vorgehensweisen für das Sharding, zu skalieren und zugleich die Entwicklung und das Management von Cloud-Anwendungen zu optimieren. Elastic Scale bietet Funktionalitäten für Entwicklung und Management über .Net Bibliotheken sowie Vorlagen für Azure Dienste, die Sie in Ihrer eigenen Azure Subscription betreiben können, um Ihre hochskalierbaren Anwendungen zu verwalten. Azure Database Elastic Scale setzt die Infrastrukturaspekte von Sharding um und erlaubt es Ihnen somit, sich auf die Geschäftslogik Ihrer Anwendung zu konzentrieren.  
 
@@ -34,29 +34,29 @@ In dieser Aufgabe werden Sie einen neuen Microsoft Azure SQL Database Server ers
 
 1. Setzen Sie im **CREATE SERVER** Dialogfenster die Servereinstellungen wie folgt:
 
-	* **Login Name**: Geben Sie den Adminstratornamen als ein Wort ohne Leerzeichen an. SQL Database verwendet SQL Authentifizierung über eine verschlüsselte Verbindung, um den Benutzer zu validieren. Ein neuer SQL Server Authentifizierungs-Login mit Administratorrechten wird mit dem von Ihnen definierten Namen erstellt. Der Administratorname kann kein Windows Benutzer oder Live ID / Microsoft Account sein. Windows Authetifizierung wird von SQL Database nicht unterstützt.
+	* **Login Name**: Geben Sie den Adminstratornamen als ein Wort ohne Leerzeichen an. SQL Database verwendet SQL Authentifizierung über eine verschlüsselte Verbindung, um den Benutzer zu validieren. Ein neuer SQL Server Authentifizierungs-Login mit Administratorrechten wird mit dem von Ihnen definierten Namen erstellt. Der Administratorname kann kein Windows Benutzer oder Live ID / Microsoft Account sein. Windows Authentifizierung wird von SQL Database nicht unterstützt.
 	
-	* **Login Password**: Verwenden Sie ein Passwort mit mindestens 8 Zeichen, mit einer Kombination aus Groß- und Kleinbuchstaben und einer Zahl bzw. Sonderzeichen. Verwenden Sie die Hilfe-Schaltfäche **?** für mehr Informationen zu Passwortkomplexität.
+	* **Login Password**: Verwenden Sie ein Passwort mit mindestens 8 Zeichen, mit einer Kombination aus Groß- und Kleinbuchstaben und einer Zahl bzw. Sonderzeichen. Verwenden Sie die Hilfe-Schaltfäche **?** für mehr Informationen zur Passwortkomplexität.
 
 	* **Region**: Wählen Sie eine Region. Die Region bestimmt die geographische Position Ihres Servers. Regionen können im laufenden Betrieb nicht einfach gewechselt werden, stellen Sie daher sicher die Region zu wählen, welche für Ihre Zwecke am besten geeignet ist. Der Betrieb der eigenen Azure Anwendung und der Datenbank in der gleiche Region hilft dabei die Latenz zu verringern und Kosten für ausgehenden Datentransfer zu reduzieren.
 	
 	* Stellen Sie sicher, dass **Allow Azure Services to access this server** ausgewählt ist, damit Dienste wie Azure SQL Reporting auf die Datenbank zugreifen können.
 
-	Klicken Sie letztenendes auf den Haken im unteren Teil des Dialogs, um den Server zu erstellen.
+	Klicken Sie zuletzt auf den Haken im unteren Teil des Dialogs, um den Server zu erstellen.
 
 	Beachten Sie, dass Sie keinen Servernamen definiert haben. Da der Server weltweit zugreifbar sein soll, konfiguriert SQL Database den entsprechenden DNS-Eintrag, wenn der Server erstellt wird. Der generierte Name stellt sicher, dass es keine Namenskonflikte mit anderen DNS-Einträgen gibt. Sie können den Namen Ihres SQL Database Servers nicht ändern.
 	
 	![Creating a new SQL Database Server](./images/creating-a-sql-database-server.png)
 
-	_Erstellen eines neuen SQL Database Server_
+	_Erstellen eines neuen SQL Database Servers_
 
-1. Warten Sie bis der Server erstellt wurde. Sie werden dann einen Hinweis sehen und es wird eine Eintrag auf der **SQL databases** Seite hinzugefügt.
+1. Warten Sie bis der Server erstellt wurde. Sie werden dann einen Hinweis sehen und es wird ein Eintrag auf der **SQL Databases** Seite hinzugefügt.
 
 	![SQL Database Server created](images/sql-database-server-created.png?raw=true)
 
 	_SQL Database Server erstellt_
 
-	Nun werden Sie die Firewall so konfigurieren, dass Sie Verbindungen von Anwendungen auf dem lokalen Computer einen Zugriff auf die Datenbanken auf Ihrem SQL Database Server erlaubt.
+	Nun werden Sie die Firewall so konfigurieren, dass sie Verbindungen von Anwendungen auf dem lokalen Computer einen Zugriff auf die Datenbanken auf Ihrem SQL Database Server erlaubt.
 	
 	Um die Firewall so zu konfigurieren, dass Verbindungen erlaubt werden, werden Sie Informationen auf der Server Seite eingeben.
 	
@@ -93,7 +93,7 @@ Sie haben nun einen SQL Database Server auf Azure, eine Firewall-Regel die den Z
 
 Die **Elastic Scale with Azure SQL Database - Getting Started** Beispielanwendung zeigt die wichtigstens Aspekte der Entwicklung von Anwendungen welche Sharding und Azure SQL DB Elastic Scale nutzen. Es konzentriert sich auf die Haupteinsatzzwecke von [Shard Map Management](http://go.microsoft.com/?linkid=9862595), [Data Dependent Routing](http://go.microsoft.com/?linkid=9862596) und [Multi-Shard Querying](http://go.microsoft.com/?linkid=9862597). 
 
-Die werden nun das Beispiel herunterlagen, konfigurieren und ausführen. 
+Sie werden nun das Beispiel herunterladen, konfigurieren und ausführen. 
 
 1. Öffnen Sie Visual Studio und wählen Sie **File -> New -> Project**.
 
@@ -149,7 +149,7 @@ Die werden nun das Beispiel herunterlagen, konfigurieren und ausführen.
 
 	_Erzeugen des Shard Map Managers und hinzufügen mehrerer Shards_
 
-1. Wechseln Sie ins [Management Portal](http://manage.windowsazure.com) und dort in auf die SQL Database Server Seite. Klicken Sie hier auf die Registerkarte Datenbanken.
+1. Wechseln Sie ins [Management Portal](http://manage.windowsazure.com) und dort auf die SQL Database Server Seite. Klicken Sie hier auf die Registerkarte Datenbanken.
 
 	Dort sehen Sie, dass Sie nun 3 Datenbanken haben. Den Shard Manager und eine für jeden Shard.
 	
@@ -157,7 +157,7 @@ Die werden nun das Beispiel herunterlagen, konfigurieren und ausführen.
 
 	_Wechseln auf die SQL Database Server Seite_
 
-1. Gehen Sie zurück in die Anwendung, tippen Sie **3** und drück Sie **_Enter_**. Dies wird eien Beispielzeile mit Hilfe von Data-Dependent Routing einfügen.
+1. Gehen Sie zurück in die Anwendung, tippen Sie **3** und drück Sie **_Enter_**. Dies wird eine Beispielzeile mit Hilfe von Data-Dependent Routing einfügen.
 
 	> **Hinweis:** Die Vermittlung von Transaktionen auf den korrekten Shard wird in der Datei **DataDependentRoutingSample.cs** gezeigt. Für mehr Details, lesen Sie bitte [Data Dependent Routing](http://go.microsoft.com/?linkid=9862596). 
 
@@ -179,8 +179,7 @@ Die werden nun das Beispiel herunterlagen, konfigurieren und ausführen.
 
 1. Tippen Sie nun **2** ein und drücken Sie **_Enter_** in der Anwendung, um einen weiteren Shard hinzuzufügen. Wenn Sie nach einem höheren Schlüssel für den neuen Bereich gefragt werden, drücken Sie **_Enter_**, um den Standardwert _300_ zu wählen.
 
-	> **Hinweis:** Das iterative hinzufügen von Shards wird durch den Coide in
- **AddNewShardsSample.cs** durchgeführt. Für mehr Informationen sehen Sie sich [Shard Map Management](http://go.microsoft.com/?linkid=9862595) an.
+	> **Hinweis:** Das iterative Vorgehen hinzufügen von Shards wird durch den Code in **AddNewShardsSample.cs** durchgeführt. Für mehr Informationen sehen Sie sich [Shard Map Management](http://go.microsoft.com/?linkid=9862595) an.
 
 	![Adding a new shard](./images/adding-a-new-shard.png)
 
@@ -200,11 +199,11 @@ Die werden nun das Beispiel herunterlagen, konfigurieren und ausführen.
 
 1. Stoppen Sie das Debugging.
 
-Sie haben nun erfolgreich Ihre erste Elastic Scale Application auf Azure SQl Database erstellen und ausgeführt. Sie können mehr Informationen über Elastic Scale Operationen unter den folgenden Links finden:
+Sie haben nun erfolgreich ihre erste Elastic Scale Application auf Azure SQl Database erstellen und ausgeführt. Sie können mehr Informationen über Elastic Scale Operationen unter den folgenden Links finden:
 
 * **Teilung eines existierenden Shards**: Die Fähigkeit Shards zu teilen wird duch den **Split/Merge service** bereitgestellt. Mehr Informationen finden Sie hier: [Split/Merge Service](http://go.microsoft.com/?linkid=9862795).
 
-* **Zusammenführen existirender Shards**: Zusammenführungen von Shards wird auch durch den **Split/Merge service** ermöglicht. Mehr Informationen finden Sie hier: [Split/Merge Service](http://go.microsoft.com/?linkid=9862795). 
+* **Zusammenführen existierender Shards**: Zusammenführungen von Shards wird auch durch den **Split/Merge service** ermöglicht. Mehr Informationen finden Sie hier: [Split/Merge Service](http://go.microsoft.com/?linkid=9862795). 
 
 <a name="cleanup"></a>
 ##Anhang - Aufräumen
