@@ -1,165 +1,169 @@
-﻿# Getting started with Azure App Service Web Apps and ASP.NET
+﻿# Arbeiten mit Azure App Service Web Apps und ASP.NET
 
-This lab shows how to create an ASP.NET web application and deploy it to an Azure App Service Web App by using Visual Studio 2015 Preview. It assumes that you have no prior experience using Azure or ASP.NET. On completing the lab, you will have a simple web application up and running in the cloud.
+Dieses Lab führt durch das Erstellen einer ASP.NET Web Anwendung und die Veröffentlichung auf einer Azure Azure Service Web App mit Visual Studio 2015. Hierbei ist kein Vorwissen im Bereich Azure oder ASP.NET nötig. Am Ende des Labs werden Sie eine einfache Webanwendung in der Cloud betreiben.
 
-This lab includes the following sections:
+Dieses Lab enthält die folgenden Abschnitte:
 
-1. [Create an ASP.NET web application in Visual Studio](#create-an-aspnet-web-application)
-1. [Deploy the application to Azure](#deploy-the-application-to-azure)
-1. [Make a change and redeploy](#make-a-change-and-redeploy)
-1. [Monitor and manage the site in the preview portal](#monitor-and-manage-the-site-in-the-management-portal)
-1. [Appendix - Cleanup](#cleanup)
+1. [Erstellen einer ASP.NET Web Anwendung in Visual Studio](#Task1)
+1. [Veröffentlichen der Anwendung auf Azure](#Task2)
+1. [Durchführen von Änderungen und Neuveröffentlichung](#Task3)
+1. [Überwachen und Verwalten der Seite im Preview Portal](#Task4)
+1. [Anhang - Aufräumen](#cleanup)
 
-## Create an ASP.NET web application
+<a name="Task1"></a>
+## Erstellen einer ASP.NET Web Anwendung in Visual Studio
 
-In this task you will create the web application that is going to be used throughout this lab.
+In diesem Schritt werden Sie die Web Anwendung erstellen, die in diesem Lab verwendet wird.
 
-1. Open Visual Studio. From the **File** menu, hover over the **New** option and click **Project**.
+1. Öffnen Sie Visual Studio. Aus dem **File** Menü, wählen Sie die **New** Option und klicken Sie **Project**.
 
 	![New Project in File menu](./images/newProject.png)
 
-    _New Project in File menu_
+    _New Project im File Menü_
 
-2. In the **New Project** dialog box, expand **C#** and select **Web** under **Installed Templates**, and then select **ASP.NET Web Application**.
+2. Im **New Project** Dialog, erweitern Sie **Visual C#** und wählen Sie **Web** unter **Installed Templates**, wähnen Sie dann **ASP.NET Web Application** aus.
 
-3. Name the application **ContactManager** and click **OK**.
+3. Nennen Sie die Anwendung **ContactManager** und klicken Sie auf **OK**.
 
 	![New Project dialog box](./images/newProject-dialog.png)
 
-    _New Project dialog box_
+    _New Project Dialog_
 
-	>**Note:** Make sure you enter "ContactManager". Code blocks that you will be copying later assume that the project name is ContactManager.
+	>**Hinweis:** Stellen Sie sicher, dass Sie das Projekt "ContactManager" nennen. Code-Blöcke, die Sie später kopieren werden, gehen davon aus, dass der Name des Projekts ContactManager ist. 
 
-4. In the **New ASP.NET Project** dialog box, select the **MVC** template. Verify **Authentication** is set to **Individual User Accounts**, **Host in the cloud** is checked and **Web App** is selected. Then, click **OK**.
+4. Im **New ASP.NET Project** Dialog wählen Sie das **MVC** Template im Bereich ASP.NET 4.5. Stellen Sie sicher, dass **Authentication** auf **Individual User Accounts** gestellt ist, **Host in the cloud** markiert und **Web App** ausgewählt ist. Klicken Sie dann auf **OK**.
 
 	![New ASP.NET Project dialog box](./images/newProject-dialog-2.png)
 
-    _New ASP.NET Project dialog box_
+    _New ASP.NET Project Dialog_
 
-5. If you haven't already signed in to Azure, Visual Studio prompts you to do so. Click **Sign In**. Follow the prompts and provide your credentials.
+5. Falls Sie sich noch nicht bei Microsoft Azure angemeldet haben, fordert Sie Visual Studio nun auf dies zu tun. Klicken Sie auf **Sign In**. Folgen Sie den Anweisungen und melden Sie sich mit Ihren Benutzerdaten an.
 
 	![Sign in to Azure](./images/sign-to-Azure.png)
 
-    _Sign in to Azure_
+    _Anmelden bei Azure_
 
-6. The configuration wizard will suggest a unique name based on *ContactManager* (see the image below). Select a region near you. You can use [azurespeed.com](http://www.azurespeed.com/ "AzureSpeed.com") to find the lowest latency data center.
-7. If you haven't created a database server before, select **Create new server**, enter a database user name and password.
+6. Wählen Sie einen Namen für die Bereitstellungs-URL aus, erstellen Sie einen neuen **App Service Plan**, eine neue **Resource Group** und wählen Sie eine Rechenzentrumsregion aus. Sie können [azurespeed.com](http://www.azurespeed.com/ "AzureSpeed.com") nutzen, um die Region mit den besten Antwortzeiten zu ermitteln.
+
+7. Erstellen Sie zudem eine neue Datenbank, indem Sie nach Auswahl von **Create new server** Datenbankname, Benutzername und Passwort festlegen.
 
 	![Configure Azure Web App](./images/configure-azure1.png)
 
     _Configure Azure Web App_
 
-	If you have a database server, use that to create a new database. Database servers are a precious resource, and you generally want to create multiple databases on the same server for testing and development rather than creating a database server per database. Make sure your Web App and database are in the same region.
+	In der Regel ist es zu empfehlen für Test und Entwicklung mehrere Datenbanken auf dem gleichen Server anzulegen, statt für jede Datenbank einen neuen Server zu erstellen. Die Datenbank und Ihre Web App sollten sich in der gleichen Region befinden.
+	
+8. Klicken Sie dann auf **OK**.
 
-8. Click **OK**.
-
-	In a few seconds, Visual Studio creates the web project in the folder you specified, and it creates the Web App in the Azure region you specified.
-
-	The **Solution Explorer** window shows the files and folders in the new project.
+	In wenigen Sekunden erzeugt Visual Studio ein Web Projekt im gewählen Ordner. Es wird außerdem eine Azure Web App in der gewählten Region erstellt.
+	
+	Der **Solution Explorer** zeigt nun die Dateien und Ordner im neuen Projekt.
 
 	![Solution Explorer](./images/solution-explorer.png)
 
 	_Solution Explorer_
 
-	The **Azure App Service Activity** window shows that the Web App has been created.
+	Das **Azure App Service Activity** Fenster zeigt, dass die Web App erstellt wurde.
 
 	![Web App created](./images/web-publish-view.png)
 
-	_Web App created_
+	_Web App erstellt_
 
-	And you can see the Web App and database in **Server Explorer**.
+	Sie können die Web App nun auch im **Cloud Explorer** sehen.
 
-	> **Note:** if the Server Explorer window is not open, you can open it from the **View** menu.
+	> **Hinweis:** Wenn der Cloud-Explorer nicht angezeigt wird, können Sie ihn über das **View** Menü einblenden.
 
-	![Web App created](./images/server-explorer.png)
+	![Web App created](./images/cloud-explorer.png)
 
-    _Web App created_
+    _Web App im Cloud Explorer_
 
-## Deploy the application to Azure
+<a name="Task2"></a>
+## Veröffentlichen der Anwendung auf Azure
 
-1. In the **Azure App Service Activity** window, click **Publish ContactManager to this Web App now**.
+1. Im **Azure App Service Activity** Fenster, klicken Sie auf **Publish ContactManager to this Web App now**. Falls diese Schaltfläche nicht angezeigt wird, können Sie auch mit der rechten Maustaste auf das Projekt im **Solution Explorer** klicken und dann auf den Punkt **Publish**.
 
 	![Web App created](./images/web-publish-view-2.png)
 
-    _Azure App Service Activity Window_
+    _Azure App Service Activity Fenster_
 
-	In a few seconds the **Publish Web** wizard appears.
+	Innerhalb von wenigen Sekunden erscheint der **Publish Web** Dialog.
+	
+	Die Einstellungen, welche Visual Studio für einen Veröffentlung des Projektes benötigt, wurden in einem *Publish Profile* gespeichert. In diesem Dialog können wir nun diese Einstellungen prüfen. Klicken Sie dafür auf **Next**.
 
-	The settings that Visual Studio needs to deploy your project to Azure have been saved in a *publish profile*. The wizard enables you to review and change those settings.
-
-2. In the **Connection** tab of the **Publish Web** wizard, click **Validate Connection** to make sure that Visual Studio can connect to Azure in order to deploy the web project.
+2. In der Registerkarte **Connection** des **Publish Web** Dialogs, können Sie nun auf **Validate Connection** klicken, um sicher zu gehen, dass Visual Studio sich zu Azure verbinden kann.
 
 	![Validate connection](./images/validate-connection.png)
 
-    _Validating the connection_
+    _Prüfen der Verbindung_
 
-	When the connection has been validated, a green check mark is shown next to the **Validate Connection** button.
-
-3. Click **Next**.
+	Wenn die Verbindung erfolgreich geprüft wurden, wird ein grüner Haken angezeigt.
+	
+3. Klicken Sie nun auf **Next**.
 
 	![Successfully validated connection](./images/validate-connection-2.png)
 
-	_Successfully validated connection_
+	_Die Verbindung wurde erfolgreich geprüft_
 
-4. The **Settings** tab is shown. If you expand **File Publish Options** you will see several settings that enable you to handle scenarios that don't apply to this lab:
+4. Nun wird die Registerkarte **Settings** angezeigt. Wenn Sie nun **File Publish Options** erweitern, sehen Sie weitere Einstellungsmöglichkeiten. Diese sind jedoch für dieses Lab nicht relevant.
 
 	* **Remove additional files at destination**.
 
-		Deletes any files at the server that aren't in your project. You might need this if you were deploying a project to a site that you had deployed a different project to earlier.
+		Löscht Dateien auf dem Server, die nicht in Ihrem Projekt sind. Sie könnten diese Einstellunge benötigen, wenn Sie ein Projekt auf eine Seite veröffentlichen, die Sie zuvor für ein anderes Projekt benutzt haben.
 
 	* **Precompile during publishing**.
 
-		Can reduce first-request warm up times for large sites.
+		Kann die Startzeit beim ersten Request für große Seiten verkürzen.
 
 	* **Exclude files from the App_Data folder**.
 
-		For testing you sometimes have a SQL Server database file in App_Data which you don't want to deploy to production.
+		Zum Testen wird manchmal eine SQL Server Datenbankdatei im Ordner App_Data verwendet, welche nicht in die Produktionsumgebung kopiert werden soll.
 
-	In this case, keep the default values for **Configuration** and **File Publish Options** and click **Next**.
+	In disem Fall belassen wir es bei den Standardwerten für **Configuration** and **File Publish Options** und klicken auf **Next**.
 
 	![Settings tab](./images/publishing-settings.png)
 
-    _Settings tab_
+    _Registerkarte Settings_
 
-5. In the **Preview** tab, click **Start Preview**.
+5. Klicken Sie in der Registerkarte **Preview** auf **Start Preview**.
 
 	![StartPreview button in the Preview tab](./images/start-preview.png)
 
-	_Start Preview button - Preview tab_
+	_Start Preview Button_
 
-	The tab displays a list of the files that will be copied to the server. Displaying the preview isn't required to publish the application but it's a useful function to be aware of.
+	Die Registerkarte zeigt eine Liste der Dateien an, welche auf den Server kopiert werden. Ein Anzeigen der Preview ist für das Veröffentlichen einer Anwendung auf Azure nicht zwingend erforderlich.
 
-6. Click **Publish**.
+6. Klicken Sie auf **Publish**.
 
 	![StartPreview file output](./images/click-publish.png)
 
-	_File Preview_
+	_Dateivorschau_
 
-	Visual Studio begins the process of copying the files to the Azure server.
+	Visual Studio beginnt nun damit die Dateien auf den Azure Server zu kopieren.
 
-	The **Output** and **Azure App Service Activity** windows show what deployment actions were taken and report successful completion of the deployment.
+	Das **Output** und **Azure App Service Activity** Fenster zeigt welche Schritte der Veröffentlichung gerade durchlaufen werden und zeigt nach erfolgreicher Veröffentlichung eine Benachrichtigung an.
 
 	![Azure App Service Activity](./images/publish-output.png)
 
-    _Azure App Service Activity reporting successful deployment_
+    _Azure App Service Activity nach erfolgreicher Veröffentlichung_
 
 	![Output window](./images/output-window.png)
 
-	  _Output Window reporting successful deployment_
+	  _Output Window nach erfolgreicher Veröffentlichung_
 
-	Upon successful deployment, the default browser automatically opens to the URL of the deployed Web App, and the application that you created is now running in the cloud. The URL in the browser address bar shows that the site is being loaded from the Internet.
-
+	Nach der erfolgreichen Veröffentlichung, öffnet der eingestellte Standardbrowser die URL der veröffentlichten Web App. Die gerade erstellte Anwendung läuft nun in der Cloud. Die URL in der Browser-Adresszeile zeigt, dass die Seite aus dem Internet geladen wird.
+	
 	![Web App running in Azure](./images/publish-success.png)
 
-	_Web App running in Azure_
+	_Die Web App läuft in Azure_
 
-7. Close the browser.
+7. Schließen Sie den Browser.
 
-## Make a change and redeploy
+<a name="Task3"></a>
+## Durchführung von Änderungen und Neuveröffentlichung
 
-In this task, you will change the **h1** heading of the home page, run the project locally on your development computer to verify the change, and then deploy the change to Azure.
+In dieser Aufgabe werden wir die **h1** Überschrift der Home Page ändern, das Projekt lokal auführen, um die Änderungen zu überprüfen und die Änderung dann auf Azure veröffentlichen.
 
-1. Open the *Views/Home/Index.cshtml* file in **Solution Explorer**, change the **h1** heading from "ASP.NET" to "ASP.NET and Azure", and save the file.
+1. Öffnen Sie die *Views/Home/Index.cshtml* Datei im **Solution Explorer**, ändern Sie die **h1** Überschrift von "ASP.NET" in "ASP.NET and Azure" und speichern Sie die Datei.
 
 	![MVC index.cshtml](./images/solution-explorer-index.png)
 
@@ -167,128 +171,134 @@ In this task, you will change the **h1** heading of the home page, run the proje
 
 	![MVC h1 change](./images/index-modification.png)
 
-    _Changing the page's heading_
+    _Ändern der Überschrift_
 
-2. Press **CTRL+F5** to see the updated heading by running the site on your local computer.
+2. Drücken Sie **STRG+F5**, um die akualisierte Überschrift auf der lokal ausgeführten Seite zu sehen.
 
 	![Web App running locally](./images/running-localhost.png)
 
-	_Web App running locally_
+	_Lokal ausgeführte Web App_
 
-	The **http://localhost** URL shows that it's running on your local computer. By default it's running in IIS Express, which is a lightweight version of IIS designed for use during web application development.
+	Die **http://localhost** URL zeigt, dass die Seite auf dem lokalen Computer ausgeführt wird. Im Standardfall läuft sie im IIS Express, der eine leichtgewichtige Version des IIS für die Webentwicklung darstellt.
 
-3. Close the browser.
+3. Schließen Sie den Browser.
 
-4. In **Solution Explorer**, right-click the project, and choose **Publish**.
+4. Klicken Sie mit der rechten Maustaste im **Solution Explorer**, auf das Projekt und wählen Sie **Publish**.
 
 	![Chooose Publish](./images/second-publish.png)
 
-    _Preparing a new deployment_
+    _Vorbereitung einer neuen Veröffentlichung_
 
-	The Preview tab of the **Publish Web** wizard appears. If you needed to change any publish settings you could choose a different tab, but now all you want to do is redeploy with the same settings.
-
-5. In the **Publish Web** wizard, click **Publish**.
+	Nun erscheint die Registerkarte Preview des **Publish Web** Dialogs. Wenn Sie auf einer anderen Registerkarte eine Änderung vornehmen müssen, können Sie nun auf diese wechseln. Wir möchten aber an dieser Stelle mit den gleichen Einstellungen die Webanwendung erneut veröffentlichen.
+	
+5. Klicken Sie im **Publish Web** Dialog auf **Publish**.
 
 	![Click Publish](./images/click-publish-no-preview.png)
 
-	_Publish Web Wizard_
+	_Publish Web Dialog_
 
-	Visual Studio deploys the project to Azure and opens the site in the default browser.
+	Visual Studio veröffentlicht das Projekt auf Azure und öffnet die Seite im Standardbrowser.
 
 	![Changed site deployed](./images/aspnet-and-azure.png)
 
-	_Changes deployed_
+	_Die Änderungen wurden veröffentlicht_
 
-	>**Tip:** You can enable the **Web One Click Publish** toolbar for even quicker deployment. Click **View** > **Toolbars**, and then select **Web One Click Publish**. The toolbar enables you to select a profile, click a button to publish, or click a button to open the **Publish Web** wizard.
+	>**Tipp:** Sie können die **Web One Click Publish** toolbar für schnelleres Deployment aktivieren. Klicken Sie auf **View** > **Toolbars** und wählen Sie **Web One Click Publish** aus. Die Toolbar ermöglicht es Ihnen ein Profil zu wählen, mit einem Klick zu veröffentlichen und den **Publish Web** Dialog zu öffnen.
 
 	![Web One Click Publish Toolbar](./images/publish-toolbar.png)
 
     _Web One Click Publish Toolbar_
 
-## Monitor and manage the site in the preview portal
+<a name="Task4"></a>
+## Überwachen und Verwalten der Seite im Preview Portal
 
-The [Azure Preview Portal](https://portal.azure.com/) is a web interface that enables you to manage and monitor your Azure services, such as the App Service Web App you just created. In this task you will look at some of what you can do in the portal.
+Das [Azure Preview Portal](https://portal.azure.com/) ist ein Webinterface, mit welchem Sie Ihre Azure Services verwalten und überwachen können. In diesem Schritt werden wir uns ein paar der Funktionen des Portals ansehen.
 
-1. In your browser, go to [http://portal.azure.com](http://portal.azure.com), and sign in with your Azure credentials.
+1. Wechseln Sie im Browser auf [http://portal.azure.com](http://portal.azure.com) und melden Sie sich mit Ihren Microsoft Azure Benutzerdaten an.
 
-	The portal displays the home dashboard.
-
-	On the left, click on **Browse** and then scroll down until you find **Web Apps**. Click on **Web Apps**.
+	Das Portal zeigt nun das Dashboard an.
+	
+	Klicken Sie auf der linken Seite auf **Browse** und gehen Sie ganz nach Unten, wo Sie **Web Apps** finden. Klicken Sie auf **Web Apps**.
 
 	![Browse to Web Apps](./images/browse-to-web-apps.png)
 
-2. Click the name of your Web App on the blade.
+2. Klicken Sie auf den Namen Ihrer Web App.
 
 	![Web Apps blade with the Web App called out](./images/select-website.png)
 
-    _Web Apps blade_
+    _Web Apps Blade_
 
-3. This blade gives you an overview of your Web App.
+3. Diese Seite gibt Ihnen einen Überblick über Ihre Web App.
 
-	You can access monitoring information, change the pricing tier, configure continuous deployment and various other tasks.
-
+	Sie können nun auf Monitoring-Informationen zugreifen, die Preisstufe ändern, Continuous Deployment einrichten und einige andere Dinge einstellen.
+	
 	![Web App overview blade](./images/web-app-overview-blade.png)
 
-  	_Web App's overview blade_
+  	_Web App Überblicksseite_
 
-	At this point your site hasn't had much traffic and may not show anything in the graph. If you browse to your application, refresh the page a few times, and then come back again, it will show up some traffic.
+	Zu diesem Zeitpunkt hat Ihre Seite noch nicht viel Traffic, daher enthält der Graph kaum Informationen. Wenn Sie Ihre Anwendung besuchen bzw. die Seite aktualisieren, sollte Sie an dieser Stelle Traffic sehen.
 
-4. Click at **Settings** at the top of the blade. Then click **Application Settings**.
+4. Klicken Sie nun auf **Settings** im oberen Bereich der Seite. Dann auf **Application Settings**.
 
-	The [Application Settings](http://azure.microsoft.com/en-us/documentation/articles/web-sites-configure/) blade enables you to control the .NET version used for the Web App, enable features such as [WebSockets](http://azure.microsoft.com/blog/2013/11/14/introduction-to-websockets-on-windows-azure-web-sites/) and [diagnostic logging](http://azure.microsoft.com/en-us/documentation/articles/web-sites-enable-diagnostic-log/), set [connection string values](http://azure.microsoft.com/blog/2013/07/17/windows-azure-web-sites-how-application-strings-and-connection-strings-work/), and more.
+	Die [Application Settings](http://azure.microsoft.com/en-us/documentation/articles/web-sites-configure/) Seite ermöglicht es die .Net Version zu steuern, zusätzliche Funktionen wie [WebSockets](http://azure.microsoft.com/blog/2013/11/14/introduction-to-websockets-on-windows-azure-web-sites/) und [Diagnostic Logging](http://azure.microsoft.com/en-us/documentation/articles/web-sites-enable-diagnostic-log/) zu aktivieren, die Werte der [Connection String](http://azure.microsoft.com/blog/2013/07/17/windows-azure-web-sites-how-application-strings-and-connection-strings-work/) zu setzen und vieles mehr.
 
 	![Portal Web App Application Settings blade ](./images/website-configure.png)
 
-  	_WebApp's settings blade_
+  	_WebApp Einstellungsseite_
+	  
+5. Klicken Sie auf **App Service Plan** und dort auf die Schaltfäche **Pricing Tier**. Wählen Sie dort die Stufe S1 Standard, um Ihre Web App auf mehrer Instanzen skalieren zu können.
 
-5. Click the **Scale** option, right below **Application Settings**.
+	Hier haben Sie möglichkeiten die Preisstufe bzw. Leistungsstufe für den App Service Plan zu wechseln, in welchem Ihre Web App ausgeführt wird. Von einem Wechsel der Leistungsstufe sind alle in diesem App Service Plan betriebenen Web Apps, API-Apps, Logic Apps und Mobile Apps betroffen.
+	
+	![App Service Scale](./images/app-service-scale.png)
+	
+	_App Service Plan Pricing Tier_
 
-	For the paid tiers of the Azure App Service, the [Scale](http://azure.microsoft.com/en-us/documentation/articles/web-sites-scale/) option enables you to control the size and number of machines that service your web application in order to handle variations in traffic.
+6. Klicken Sie nun auf die **Scale** Option im Bereich **App Service Plan**.
 
-	You can scale manually or configure criteria or schedules for automatic scaling.
+	Für die kostenpflichtigen Stufen eines Azure App Service ermöglicht es die [Scale](http://azure.microsoft.com/en-us/documentation/articles/web-sites-scale/)-Option die Anzahl der Maschinen, die Ihre Web Anwendung ausliefern, dem sich ändernden Traffic anzupassen.
+
+	Sie können manuell, gemäß festgelegter Kriterien oder nach Zeitplänen skalieren.
 
 	![Portal Web App scale options](./images/website-scale.png)
 
-    _Web App's Scale Options_
-
-	These are just a few of the management portal features. You can also create new App Service apps, delete existing apps, stop and restart apps, and manage other kinds of Azure services, such as databases and virtual machines.
+    _Web App Skalierungsmöglichkeiten_
+	
+	Dies sind nur einige wenige Funktionen des Management Portals. Sie können außerdem existierende Apps löschen, stoppen und neu starten, sowie alle anderen Azure Dienste verwalten.
 
 <a name="cleanup"></a>
-##Appendix - Cleanup
+##Anhang - Aufräumen
 
-In this task you will learn how to delete the Web App published in the previous section.
+In diesem Schritt werden wir die gerade angelegte Web App wieder löschen und im Portal wieder aufräumen.
 
-1. In your browser, go to [http://portal.azure.com](http://portal.azure.com), and sign in with your Azure credentials.
+1. Wechseln Sie im Browser auf [http://portal.azure.com](http://portal.azure.com) und melden Sie sich mit Ihren Azure Benutzerdaten an.
 
-2. Click on **Browse** and scroll down until you see **Web Apps**. Click on **Web Apps**.
+2. Klicken Sie nun auf **Browse** und wählen Sie **Web Apps** aus.
 
-3. Select your Web App. The Web App blade should now be open.
+3. Wählen Sie nun Ihre Web App.
 
-4. Click **Delete** in the top bar.
+4. Klicken Sie auf **Delete** in der oberen Leiste.
 
 	![Clicking Delete Web App](./images/clicking-delete-website.png?raw=true)
 
-	_Clicking Delete to delete Web App_
+	_Klicken auf "Delete" zum löschen der Web App_
 
-5. In the **Delete app** confirmation dialog, click **Yes**.
+5. Bestätigen Sie das Löschen im **Delete App** Dialog mit **Yes**.
 
-	This will delete the Web App but it will keep the database intact. If you want to delete the database as well, follow the instructions below.
+	Dies wird Ihre Web App löschen. Ihre Datenbank ist jedoch noch intakt. Falls Sie Ihre Datenbank löschen wollen, folgen Sie den nächsten Anweisungen.
 
-6. Click on **Browse** and scroll down until you see **SQL Databases**. Click on **SQL Databases**.
+6. Klicken Sie auf **Browse** und wählen Sie **SQL Databases**.
 
-	![SQL Databases](./images/browse-to-sql-database.png)
-	_Click SQL databases_
+7. Wählen Sie Ihre **SQL Databases** aus.
 
-7. In the new **SQL Databases** blade, click on your database.
+	Die Übersichtsseite für Ihre Datenbank sollte nun geöffnet werden.
 
-	The database blade should now be open.
-
-8. Click on **Delete** from the top bar.
+8. Klicken Sie nun auf **Delete** in der oberen Leiste.
 
 	![SQL Database delete](./images/sql-database-blade-click-delete.png)
 
-9. In the **Delete database** confirmation dialog, click **Yes**.
+9. Bestätigen Sie die Rückfrage mit einem Klick auf **Yes**.
 
-## Summary
+## Zusammenfassung
 
-In this lab you have seen how to create a simple web application and deploy it to an Azure App Service Web App. You also made a quick tour around the Azure Preview Portal.
+In diesem Lab haben Sie gesehen, wie eine einfache Web Anwendung angelegt und auf eine Azure App Service Web App veröffentlicht wird. Wir haben uns zudem das Preview Portal etwas näher angesehen.

@@ -20,7 +20,7 @@ In diesem Lab werden Sie folgendes lernen:
 
 In dieser Übung erhalten Sie einen Überblick über die verschiedenen Bestandteile und Elemente des Azure Management Portals.
 
-1. Öffnen Sie Ihren Browser und navigieren Sie zu [http://manage.windowsazure.com](http://manage.windowsazure.com). Um zu vermeiden, dass der Browser gespeicherte (ggf. ungeeignete) User-Credentials zur Anmeldung verwendet, empfiehlt sich die Ausführung des Browsers im InPrivate-Modus (Internet Explorer) bzw. Incognito-Fenster (Chrome) etc.
+1. Öffnen Sie Ihren Browser und navigieren Sie zu [https://portal.azure.com/](https://portal.azure.com/). Um zu vermeiden, dass der Browser gespeicherte (ggf. ungeeignete) User-Credentials zur Anmeldung verwendet, empfiehlt sich die Ausführung des Browsers im InPrivate-Modus (Internet Explorer) bzw. Incognito-Fenster (Chrome) etc.
 
 2. Geben Sie Ihre Anmeldeinformation für den Zugriff auf Ihre _Azure Subscription_ ein. 
 

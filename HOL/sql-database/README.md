@@ -1,233 +1,229 @@
-﻿Getting Started with Azure SQL Database Elastic Scale
+﻿Schnellstart in die Nutzung Azure SQL Database Elastic Scale
 =======================================================================================
 
-Growing and shrinking capacity on demand is one of the key cloud computing promises. Delivering on this promise has historically been tedious and complex for the database tier of cloud applications. Over the last few years, the industry has converged on well-established design patterns commonly known as sharding. While the general sharding pattern addresses the challenge, building and managing applications using sharding requires significant infrastructure investments independent of the application’s business logic.
+Wachsenden und schrumpfende Kapazitäten, welche sich am tatsächlichen Bedarf orientieren, sind eines der Kernversprechen von Cloud Computing. Diesem Versprechen gerecht zu werden war in der Vergangheit für die Datenbankschicht von Cloud Anwendugnen jedoch oft mühsam und komplex. Über die letzten Jahre hat sich in der Industrie hierfür ein Entwurfsmuster etabliert, welches als *Sharding* bekannt ist. Obwohl das allgemeine Sharding-Entwurfsmuster viele der Herausforderungen löst, sind für die Entwicklung und den Betrieb von Anwendungen die dieses nutzen, unabhängig von der Business Logic immer noch nennenswerte Investitionen in die Infrastruktur nötig.
 
-Azure SQL Database Elastic Scale (in preview) enables the data-tier of an application to scale in and out via industry-standard sharding practices, while significantly streamlining the development and management of your sharded cloud applications. Elastic Scale delivers both developer and management functionality which are provided through a set of .Net libraries and Azure service templates that you can host in your own Azure subscription to manage your highly scalable applications. Azure DB Elastic Scale implements the infrastructure aspects of sharding and thus allows you to focus on the business logic of your application instead.
+Azure SQL Database Elastic Scale ermöglicht es der Datenschicht einer Anwendung, auf Basis von in der Industrie etablierten Vorgehensweisen für das Sharding, zu skalieren und zugleich die Entwicklung und das Management von Cloud-Anwendungen zu optimieren. Elastic Scale bietet Funktionalitäten für Entwicklung und Management über .Net Bibliotheken sowie Vorlagen für Azure Dienste, die Sie in Ihrer eigenen Azure Subscription betreiben können, um Ihre hochskalierbaren Anwendungen zu verwalten. Azure Database Elastic Scale setzt die Infrastrukturaspekte von Sharding um und erlaubt es Ihnen somit, sich auf die Geschäftslogik Ihrer Anwendung zu konzentrieren.  
 
-In this lab, you will be introduced to the developer experience for Azure SQL Database Elastic Scale.
+In diesem Lab werden Sie die Entwicklerseite von Azure SQL Database Elastic Scale näher kennenlernen.
 
-This lab includes the following tasks:
+Dieses Lab enthält die folgende Aufgaben:
 
-* [Creating a Microsoft Azure SQL Database Server](#creating-a-sql-server)
-* [Walking through the sample](#walking-through-the-sample)
-* [Appendix - Cleanup](#cleanup)
+* [Erstellen eines Microsoft Azure SQL Database Servers](#Task1)
+* [Durchlaufen des Beispiels](#Task2)
+* [Anhang - Aufräumen](#cleanup)
 
-<a name="creating-a-sql-server"></a>
-## Creating a Microsoft Azure SQL Database Server ##
+<a name="Task1"></a>
+## Erstellen eines Microsoft Azure SQL Database Servers ##
 
-In this task you will create a new Microsoft Azure SQL Database Server and configure the firewall so that connections from applications running on your computer are allowed to access the databases on your SQL Database server.
+In dieser Aufgabe werden Sie einen neuen Microsoft Azure SQL Database Server erstellen und die Firewall so konfigurieren, dass Verbindungen von auf dem lokalen Computer ausgeführten Anwendungen Zugriff auf die Datenbanken in Ihrem SQL Database Server haben.
 
-1. Sign in to the [Management Portal](http://manage.windowsazure.com).
+1. Melden Sie sich am [Management Portal](http://manage.windowsazure.com) an.
 
-1. On the sidebar, click **SQL DATABASES**. Then click the **SERVERS** tab. 
+1. Klicken Sie im seitlichen Menü auf **SQL DATABASES**. Klicken Sie dann auf die Registerkarte **SERVERS**. 
 
 	![Navigating to the SQL Database Servers tab](./images/navigating-to-the-sql-servers-tab.png)
 
-	_Navigating to the SQL Database Server tab_
+	_Navigation zur Registerkarte SQL Database Server_
 
-1. Click **ADD** in the bottom bar in order to create a new SQL Database Server.
+1. Klicken Sie auf **ADD** in der unteren Leiste, um einen neuen SQL Database Server anzulegen.
 
 	![Adding a new SQL Database Server](./images/adding-a-new-sql-server.png)
 
-	_Adding a new SQL Database Server_
+	_Hinzufügen eines neuen SQL Database Servers_
 
-1. In the **CREATE SERVER** dialog box, fill out the Server Settings as follows:
+1. Setzen Sie im **CREATE SERVER** Dialogfenster die Servereinstellungen wie folgt:
 
-	* **Login Name**: enter an administrator name as one word with no spaces. SQL Database uses SQL Authentication over an encrypted connection to validate user identity. A new SQL Server authentication login that has administrator permissions will be created using the name you provide. The administrator name cannot be a Windows user, nor should it be a Live ID user name. Windows authentication is not supported on SQL Database.
+	* **Login Name**: Geben Sie den Adminstratornamen als ein Wort ohne Leerzeichen an. SQL Database verwendet SQL Authentifizierung über eine verschlüsselte Verbindung, um den Benutzer zu validieren. Ein neuer SQL Server Authentifizierungs-Login mit Administratorrechten wird mit dem von Ihnen definierten Namen erstellt. Der Administratorname kann kein Windows Benutzer oder Live ID / Microsoft Account sein. Windows Authentifizierung wird von SQL Database nicht unterstützt.
+	
+	* **Login Password**: Verwenden Sie ein Passwort mit mindestens 8 Zeichen, mit einer Kombination aus Groß- und Kleinbuchstaben und einer Zahl bzw. Sonderzeichen. Verwenden Sie die Hilfe-Schaltfäche **?** für mehr Informationen zur Passwortkomplexität.
 
-	* **Login Password**: provide a strong password that is at least eight characters, using a combination of upper and lower case values, and a number or symbol. Use the help bubble for details about password complexity.
+	* **Region**: Wählen Sie eine Region. Die Region bestimmt die geographische Position Ihres Servers. Regionen können im laufenden Betrieb nicht einfach gewechselt werden, stellen Sie daher sicher die Region zu wählen, welche für Ihre Zwecke am besten geeignet ist. Der Betrieb der eigenen Azure Anwendung und der Datenbank in der gleiche Region hilft dabei die Latenz zu verringern und Kosten für ausgehenden Datentransfer zu reduzieren.
+	
+	* Stellen Sie sicher, dass **Allow Azure Services to access this server** ausgewählt ist, damit Dienste wie Azure SQL Reporting auf die Datenbank zugreifen können.
 
-	* **Region**: choose a region. The region determines the geographical location of the server. Regions cannot be easily switched, so choose one that makes sense for this server. Keeping your Azure application and database in the same region saves on egress bandwidth cost and data latency.
+	Klicken Sie zuletzt auf den Haken im unteren Teil des Dialogs, um den Server zu erstellen.
 
-	* Be sure to keep the **Allow Azure Services to access this server**  checkbox selected so that you can connect to this database using the Management Portal for SQL Database, Excel in Office 365, or Azure SQL Reporting.
-
-	Finally, click the checkmark button at the bottom of the dialog box to create the server. 
-
-	Notice that you did not specify a server name. Because the SQL Database server must be accessible worldwide, SQL Database configures the appropriate DNS entries when the server is created. The generated name ensures that there are no name collisions with other DNS entries. You cannot change the name of your SQL Database server.
-
+	Beachten Sie, dass Sie keinen Servernamen definiert haben. Da der Server weltweit zugreifbar sein soll, konfiguriert SQL Database den entsprechenden DNS-Eintrag, wenn der Server erstellt wird. Der generierte Name stellt sicher, dass es keine Namenskonflikte mit anderen DNS-Einträgen gibt. Sie können den Namen Ihres SQL Database Servers nicht ändern.
+	
 	![Creating a new SQL Database Server](./images/creating-a-sql-database-server.png)
 
-	_Creating a new SQL Database Server_
+	_Erstellen eines neuen SQL Database Servers_
 
-1. Wait until the server has been created. You will see a notification like the one below and also an entry added to the **SQL databases** page.
+1. Warten Sie bis der Server erstellt wurde. Sie werden dann einen Hinweis sehen und es wird ein Eintrag auf der **SQL Databases** Seite hinzugefügt.
 
 	![SQL Database Server created](images/sql-database-server-created.png?raw=true)
 
-	_SQL Database Server created_
+	_SQL Database Server erstellt_
 
-	Now you will configure the firewall so that connections from applications running on your computer are allowed to access the databases on your SQL Database server.
+	Nun werden Sie die Firewall so konfigurieren, dass sie Verbindungen von Anwendungen auf dem lokalen Computer einen Zugriff auf die Datenbanken auf Ihrem SQL Database Server erlaubt.
+	
+	Um die Firewall so zu konfigurieren, dass Verbindungen erlaubt werden, werden Sie Informationen auf der Server Seite eingeben.
+	
+	> **Hinweis:** Der SQL Database Dienst ist nur über TCP port 1433 verfügbar, welcher vom TDS Protokoll verwendet wird. Stellen Sie daher sicher, dass die Firewall Ihres Netzwerks sowie der lokale Computer ausgehende Verbindungen auf Port 1433 erlaubt. Für mehre Details schauen Sie in die Informationen zur [SQL Database Firewall](http://social.technet.microsoft.com/wiki/contents/articles/2677.sql-azure-firewall-en-us.aspx).
 
-	To configure the firewall so that connections are allowed through, you will enter information on the server page. 
-
-	> **Note:** The SQL Database service is only available with TCP port 1433 used by the TDS protocol, so make sure that the firewall on your network and local computer allows outgoing TCP communication on port 1433. For more information, see [SQL Database Firewall](http://social.technet.microsoft.com/wiki/contents/articles/2677.sql-azure-firewall-en-us.aspx).
-
-1. Click the server you just created to open the server page.
+1. Klicken Sie auf den Server den Sie gerade erstellt haben, um die Serverseite zu öffnen.
 
 	![Navigating to the new server page](./images/navigating-to-the-new-server-page.png)
 
-	_Navigating to the new server page_
+	_Navigation zum neuen Server_
 
-1. On the server page, click **Configure** to open the **Allowed IP Addresses** settings. Then click **Add to the allowed IP Addresses** link. 
+1. Klicken Sie auf der Serverseite nun auf **Configure** um die **Allowed IP Addresses**-Einstellungen anzuzeigen. Klicken Sie dann auf den **Add to the allowed IP Addresses** Link. 
 
-	This will create a new firewall rule to allow connection requests from the router or proxy server your device is listening on.
+	Dies wird eine neue Firewall-Regel erzeugen, die Verbindungen erlaubt, die vom Router oder Proxy Server kommen, über den Sie verbunden sind.
 
 	![Adding a firewall rule to the server](./images/adding-a-firewall-rule.png)
 
-	_Adding a firewall rule to the server_
+	_Hinzufügen einer Firewall-Regel für den Server_
 
-	> **Note:** You can create additional firewall rules by specifying a rule name and the start and end IP range values.
+	> **Hinweis:** Sie können zusätzliche Firewall-Regeln erzeugen, indem Sie einen Namen sowie einen IP-Bereich definieren.
 
-1. To save your changes, click **SAVE** at the bottom of the page.
+1. Um die Änderungen zu speichern, klicken Sie auf **SAVE** am unteren Rand der Seite.
 
 	![Saving the allowed ip changes](./images/saving-the-allowed-ip-changes.png)
 
-	_Saving the allowed ip changes_
+	_Speichern der Änderungen an die erlaubten IP-Adressen_
 
-1. Take note of the name of the SQL Database server (e.g.: _z754axd2q8_), as you will need it in the following task.
+1. Merken oder Notieren Sie sich den Namen des SQL Database Servers (z.B.: _z754axd2q8_), da Sie diesen im folgenden Schritt benötigen.
 
-You now have a SQL Database server on Azure, a firewall rule that enables access to the server, and an administrator login.
+Sie haben nun einen SQL Database Server auf Azure, eine Firewall-Regel die den Zugriff auf den Server erlaubt und einen Administrator-Login.
 
-<a name="walking-through-the-sample"></a>
-## Walking through the sample ##
+<a name="Task2"></a>
+## Durchlaufen des Beispiels ##
 
-The **Elastic Scale with Azure SQL Database - Getting Started** sample application illustrates the most important aspects of the development experience for sharded applications using Azure SQL DB Elastic Scale. It focuses on key use cases for [Shard Map Management](http://go.microsoft.com/?linkid=9862595), [Data Dependent Routing](http://go.microsoft.com/?linkid=9862596) and [Multi-Shard Querying](http://go.microsoft.com/?linkid=9862597). 
+Die **Elastic Scale with Azure SQL Database - Getting Started** Beispielanwendung zeigt die wichtigstens Aspekte der Entwicklung von Anwendungen welche Sharding und Azure SQL DB Elastic Scale nutzen. Es konzentriert sich auf die Haupteinsatzzwecke von [Shard Map Management](http://go.microsoft.com/?linkid=9862595), [Data Dependent Routing](http://go.microsoft.com/?linkid=9862596) und [Multi-Shard Querying](http://go.microsoft.com/?linkid=9862597). 
 
-In this task, you will download and run this sample. 
+Sie werden nun das Beispiel herunterladen, konfigurieren und ausführen. 
 
-1. Open Visual Studio and select **File -> New -> Project**.
+1. Öffnen Sie Visual Studio und wählen Sie **File -> New -> Project**.
 
 	![Creating a new project](./images/creating-a-new-project.png)
 
-	_Creating a new project_
+	_Anlegen eines neuen Projektes_
 
-1. In the _New Project_ dialog box, click **Online**.
+1. Klicken Sie im _New Project_ Dialog auf **Online**.
 
 	![Clicking Online](./images/clicking-online.png)
 
-	_Clicking Online_
+	_Wählen von Online_
 
-1. Then click **Visual C#** under **Samples**.
+1. Nun klicken Sie auf **Visual C#** unter **Samples**.
 
 	![Navigating to online C# samples](./images/navigating-to-online-csharp-samples.png)
 
-	_Navigating to online C# samples_
+	_Wechseln zu Online C# Samples_
 
-1. In the search box, type **Elastic Scale** to search for the sample. The title **Elastic Scale with Azure SQL Database-Getting Started** appears.
+1. Tippen Sie **Elastic Scale** in die Suchmaske, um das Beispiel zu suchen. **Elastic DB Tools for Azure SQL - Getting Started** erscheint.
  
-1. Select the sample, choose a name and a location for the new project and click **OK** to create the project.
+1. Wählen Sie das Beispiel aus, legen Sie einen Namen und einen Speicherort für das Projekt fest und klicken Sie auf **OK**, um das Projekt zu erstellen.
 
 	![Creating the sample project](./images/creating-the-sample-project.png)
 
-	_Creating the sample project_
+	_Erstellen des Beispielprojekts_
 
-1. If the **Download and Install** dialog comes up, click **Install**.
+1. Falls der **Download and Install** Dialog erscheint, klicken Sie auf **Install**.
 
 	![Download and Install Sample dialog](images/download-and-install-sample-dialog.png?raw=true)
 
-	_Clicking Install in the Download and Install dialog_
+	_Klicke auf Install im Download and Install Dialog_
 
-1. Open the **App.config** file in the solution for the sample project and replace the _MyServerName_ placeholder with your Azure SQL database server name and the _MyUserName_ and _MyPassword_ placeholders with your login information (user name and password).
+1. Öffnen Sie die **App.config** Datei in der Solution und ersetzen Sie _MyServerName_ mit dem Namen Ihres Azure SQL Database Servers und _MyUserName_ sowie _MyPassword_ mit Ihren Anmeldeinformationen (Benutzername und Passwort).
 
 	![Configuring the sample project](./images/configuring-the-sample.png)
 
-	_Configuring the sample project_
+	_Konfigurieren des Beispielprojekts_
 
-1. Build and run the application. If asked, please allow Visual Studio to restore the NuGet packages of the solution. This will download the latest version of the Elastic Scale client libraries from NuGet.
+1. Erstellen und Starten Sie die Anwendung. Wenn Sie gefragt werden, bestätigen Sie das wiederherstellen von NuGet Packeten in der Solution. Dies wird die neueste Version der Elastic Scale Client-Bibliotheken von NuGet herunterladen.
 
 	![Running the sample](./images/running-the-sample.png)
 
-	_Running the sample_
+	_Ausführen des Beispiels_
 
-1. In the application, type **1** and press **_enter_** in order to create the shard map manager and add several shards.
+1. Tippen Sie **1** in der Anwendung und drücken Sie **_Enter_**, um den Shard Map Manager und mehrere Shards zu erzeugen.
 
-	> **Note:**  The code illustrates how to work with shards, ranges, and mappings in file **ShardMapManagerSample.cs**. You can find more information about this topic here: [Shard Map Management](http://go.microsoft.com/?linkid=9862595).
+	> **Hinweis:** Der Code in Datei **ShardMapManagerSample.cs** zeigt, wie Sie mit Shards, Ranges, Mappings arbeiten. Mehr zu diesem Thema finden Sie hier: [Shard Map Management](http://go.microsoft.com/?linkid=9862595).
 
-	The output will look like this:
+	Die Ausgabe wird so aussehen:
 
 	![Creating the shard map manager and adding a couple of shards](./images/creating-the-shard-map-manager.png)
 
-	_Creating the shard map manager and adding several shards_
+	_Erzeugen des Shard Map Managers und hinzufügen mehrerer Shards_
 
-1. Switch to the [Management Portal](http://manage.windowsazure.com), navigate to the SQL Database server page and click the **DATABASES** tab.
+1. Wechseln Sie ins [Management Portal](http://manage.windowsazure.com) und dort auf die SQL Database Server Seite. Klicken Sie hier auf die Registerkarte Datenbanken.
 
-	Notice that you have three new databases: the shard manager and one for each shard.
-
+	Dort sehen Sie, dass Sie nun 3 Datenbanken haben. Den Shard Manager und eine für jeden Shard.
+	
 	![Navigating to the SQL Database server page ](./images/navigating-to-the-server-in-the-portal.png)
 
-	_Navigating to the SQL Database server page_
+	_Wechseln auf die SQL Database Server Seite_
 
-1. Switch back to the application, type **3** and then press **_enter_**. This will insert a sample row using Data-Dependent routing.
+1. Gehen Sie zurück in die Anwendung, tippen Sie **3** und drück Sie **_Enter_**. Dies wird eine Beispielzeile mit Hilfe von Data-Dependent Routing einfügen.
 
-	> **Note:** Routing of transactions to the right shard is shown in **DataDependentRoutingSample.cs**. For more details, see [Data Dependent Routing](http://go.microsoft.com/?linkid=9862596). 
-
+	> **Hinweis:** Die Vermittlung von Transaktionen auf den korrekten Shard wird in der Datei **DataDependentRoutingSample.cs** gezeigt. Für mehr Details, lesen Sie bitte [Data Dependent Routing](http://go.microsoft.com/?linkid=9862596). 
 
 	![Inserting sample row](./images/inserting-sample-data.png)
 
-	_Inserting sample row_
+	_Einfügen eine Beispielzeile_
 
-1. Repeat the last step at least three more times so that you have at least four rows.
+1. Wiederholen Sie den letzten Schritt mindestens 3 mal, sodass sie mindestens vier Zeilen haben.
 
-1. Now, type **4** and press **_enter_** in the application to execute a sample Multi-Shard Query.
+1. Geben Sie jetzt **4** ein und drücken Sie **_Enter_**. Hiermit führen Sie eine Multi-Shard Abfrage durch.
 
-	Notice the _$ShardName_ column. It should show that the rows with a _CustomerId_ from 0 to 99 are located in the _ElasticScaleStarterKit_Shard0_ shard and those with a _CustomerId_ from 100 to 199 are located in the _ElasticScaleStarterKit_Shard1_ shard.
+	Beachten Sie die _$ShardName_ Spalte. Sie zeigt, dass sich Zeilen mit _CustomerId_ von 0 bis 99 in _ElasticScaleStarterKit_Shard0_ befinden und die mit _CustomerId_ from 100 bis 199 in _ElasticScaleStarterKit_Shard1_.
 
-	> **Note:** Querying across shards is illustrated in the file **MultiShardQuerySample.cs**. For more information, see [Multi-Shard Querying](http://go.microsoft.com/?linkid=9862597).
-
+	> **Hinweis:** Abfragen über Shards hinweg werden in der Datei **MultiShardQuerySample.cs** gezeigt. Für weitere Informationen sehen Sie sich [Multi-Shard Querying](http://go.microsoft.com/?linkid=9862597) an.
 
 	![Executing a Multi-Shard Query](./images/executing-a-multi-shard-query.png)
 
-	_Executing a Multi-Shard Query_
+	_Ausführen einer Multi-Shard Abfrage_
 
-1. Type **2** and press **_enter_** in the application to add another shard. When prompted for the higher key of the new range, press **_enter_** to use the default value of _300_.
+1. Tippen Sie nun **2** ein und drücken Sie **_Enter_** in der Anwendung, um einen weiteren Shard hinzuzufügen. Wenn Sie nach einem höheren Schlüssel für den neuen Bereich gefragt werden, drücken Sie **_Enter_**, um den Standardwert _300_ zu wählen.
 
-	> **Note:** The iterative adition of new empty shards is performed by the code in
-file **AddNewShardsSample.cs**. For more information see [Shard Map Management](http://go.microsoft.com/?linkid=9862595).
-
+	> **Hinweis:** Das iterative Vorgehen hinzufügen von Shards wird durch den Code in **AddNewShardsSample.cs** durchgeführt. Für mehr Informationen sehen Sie sich [Shard Map Management](http://go.microsoft.com/?linkid=9862595) an.
 
 	![Adding a new shard](./images/adding-a-new-shard.png)
 
-	_Adding a new shard_
+	_Hinzufügen eines neuen Shard_
 
-1. Switch back to the **Management Portal**. You should see a new database for the new shard named _ElasticScaleStarterKit_Shard2_.
+1. Wechseln Sie zurück ins **Management Portal**. Sie sollten hier nun eine neue Datenbank für den neuen Shard mit dem Namen _ElasticScaleStarterKit_Shard2_ sehen.
 
 	![Viewing the new database in the portal ](./images/seeing-the-new-database-in-the-portal.png)
 
-	_Viewing the new database in the portal_
+	_Die neue Datenbank im Portal_
 
-1. Switch back to the application, type **5** and press **_enter_**. This will drop all the shards and the map manager database.
+1. Wechseln Sie wieder in die Anwendung, tippen Sie **5** und drücken Sie **_Enter_**. Dies wird alle Shards und die Map Manager Datanbank verwerfen.
 
 	![Removing the shards and the map manager](./images/removing-the-shards.png)
 
-	_Removing the shards and the map manager_
+	_Entfernen der Shards und des Map Manager_
 
-1. Stop debugging.
+1. Stoppen Sie das Debugging.
 
-You have successfully built and run your first Elastic Scale application on Azure SQL DB. You can find information on other Elastic Scale operations in the following links:
+Sie haben nun erfolgreich ihre erste Elastic Scale Application auf Azure SQl Database erstellen und ausgeführt. Sie können mehr Informationen über Elastic Scale Operationen unter den folgenden Links finden:
 
-* **Splitting an existing shard**: The capability to split shards is provided through the **Split/Merge service**. You can find more information about this service here: [Split/Merge Service](http://go.microsoft.com/?linkid=9862795).
+* **Teilung eines existierenden Shards**: Die Fähigkeit Shards zu teilen wird duch den **Split/Merge service** bereitgestellt. Mehr Informationen finden Sie hier: [Split/Merge Service](http://go.microsoft.com/?linkid=9862795).
 
-* **Merging existing shards**: Shard merges are also performed using the **Split/Merge service**. For more information, see [Split/Merge Service](http://go.microsoft.com/?linkid=9862795). 
+* **Zusammenführen existierender Shards**: Zusammenführungen von Shards wird auch durch den **Split/Merge service** ermöglicht. Mehr Informationen finden Sie hier: [Split/Merge Service](http://go.microsoft.com/?linkid=9862795). 
 
 <a name="cleanup"></a>
-##Appendix - Cleanup
+##Anhang - Aufräumen
 
-In this task you will learn how to delete the SQL Database Server created in the first task.
+In diesem Schritt werden Sie den SQL Database Server löschen, welchen wir im ersten Schritt angelegt haben.
 
-1. Sign in to the [Management Portal](http://manage.windowsazure.com).
+1. Melden Sie sich am [Management Portal](http://manage.windowsazure.com) an.
 
-1. On the sidebar, click **SQL DATABASES**. Then click the **SERVERS** tab. 
+1. Klicken Sie auf der seitlichen Leiste auf **SQL DATABASES**. Wählen Sie dann die Registerkarte **SERVERS**. 
 
-1. Click the row for the server you created to select it and then click **DELETE** from the bottom bar.
+1. Klicken Sie auf die Reihe mit dem Server, den Sie zuvor erstellt haben. Klicken Sie dann auf **DELETE** in der unteren Leiste.
 
-1. In the confirmation dialog that appears, type the server name and the click the check mark button.
+1. Im Bestätigungsdialog müssen Sie noch einmal den Servernamen angeben und auf den Haken klicken.
 
 ![Delete server confirmation dialog](images/delete-server-confirmation-dialog.png?raw=true)
 
-_Delete server confirmation dialog_
+_Bestätigung des Löschens_
 
-The server will be deleted. Once it is done you should see a notification in the bottom bar.
+Der Server wird nun gelöscht. Sobald dies erledigt ist, werden Sie einen Hinweis in der unteren Leiste sehen.
 
-##Summary
+##Zusammenfassung
 
-By completing this lab you have learned the basic concepts of Azure SQL Database Elastic Scale: Shard Map Management, Data Dependent Routing and Multi-Shard Querying.
+In diesem Lab haben Sie die wesentlichen Konzepte von Azure SQL Database Elastic Scale kennengelernt: Shard Map Management, Data Dependent Routing und Multi-Shard Querying.
