@@ -149,85 +149,82 @@ Die werden nun das Beispiel herunterlagen, konfigurieren und ausführen.
 
 	_Erzeugen des Shard Map Managers und hinzufügen mehrerer Shards_
 
-1. Switch to the [Management Portal](http://manage.windowsazure.com), navigate to the SQL Database server page and click the **DATABASES** tab.
+1. Wechseln Sie ins [Management Portal](http://manage.windowsazure.com) und dort in auf die SQL Database Server Seite. Klicken Sie hier auf die Registerkarte Datenbanken.
 
-	Notice that you have three new databases: the shard manager and one for each shard.
-
+	Dort sehen Sie, dass Sie nun 3 Datenbanken haben. Den Shard Manager und eine für jeden Shard.
+	
 	![Navigating to the SQL Database server page ](./images/navigating-to-the-server-in-the-portal.png)
 
-	_Navigating to the SQL Database server page_
+	_Wechseln auf die SQL Database Server Seite_
 
-1. Switch back to the application, type **3** and then press **_enter_**. This will insert a sample row using Data-Dependent routing.
+1. Gehen Sie zurück in die Anwendung, tippen Sie **3** und drück Sie **_Enter_**. Dies wird eien Beispielzeile mit Hilfe von Data-Dependent Routing einfügen.
 
-	> **Note:** Routing of transactions to the right shard is shown in **DataDependentRoutingSample.cs**. For more details, see [Data Dependent Routing](http://go.microsoft.com/?linkid=9862596). 
-
+	> **Hinweis:** Die Vermittlung von Transaktionen auf den korrekten Shard wird in der Datei **DataDependentRoutingSample.cs** gezeigt. Für mehr Details, lesen Sie bitte [Data Dependent Routing](http://go.microsoft.com/?linkid=9862596). 
 
 	![Inserting sample row](./images/inserting-sample-data.png)
 
-	_Inserting sample row_
+	_Einfügen eine Beispielzeile_
 
-1. Repeat the last step at least three more times so that you have at least four rows.
+1. Wiederholen Sie den letzten Schritt mindestens 3 mal, sodass sie mindestens vier Zeilen haben.
 
-1. Now, type **4** and press **_enter_** in the application to execute a sample Multi-Shard Query.
+1. Geben Sie jetzt **4** ein und drücken Sie **_Enter_**. Hiermit führen Sie eine Multi-Shard Abfrage durch.
 
-	Notice the _$ShardName_ column. It should show that the rows with a _CustomerId_ from 0 to 99 are located in the _ElasticScaleStarterKit_Shard0_ shard and those with a _CustomerId_ from 100 to 199 are located in the _ElasticScaleStarterKit_Shard1_ shard.
+	Beachten Sie die _$ShardName_ Spalte. Sie zeigt, dass sich Zeilen mit _CustomerId_ von 0 bis 99 in _ElasticScaleStarterKit_Shard0_ befinden und die mit _CustomerId_ from 100 bis 199 in _ElasticScaleStarterKit_Shard1_.
 
-	> **Note:** Querying across shards is illustrated in the file **MultiShardQuerySample.cs**. For more information, see [Multi-Shard Querying](http://go.microsoft.com/?linkid=9862597).
-
+	> **Hinweis:** Abfragen über Shards hinweg werden in der Datei **MultiShardQuerySample.cs** gezeigt. Für weitere Informationen sehen Sie sich [Multi-Shard Querying](http://go.microsoft.com/?linkid=9862597) an.
 
 	![Executing a Multi-Shard Query](./images/executing-a-multi-shard-query.png)
 
-	_Executing a Multi-Shard Query_
+	_Ausführen einer Multi-Shard Abfrage_
 
-1. Type **2** and press **_enter_** in the application to add another shard. When prompted for the higher key of the new range, press **_enter_** to use the default value of _300_.
+1. Tippen Sie nun **2** ein und drücken Sie **_Enter_** in der Anwendung, um einen weiteren Shard hinzuzufügen. Wenn Sie nach einem höheren Schlüssel für den neuen Bereich gefragt werden, drücken Sie **_Enter_**, um den Standardwert _300_ zu wählen.
 
-	> **Note:** The iterative adition of new empty shards is performed by the code in
-file **AddNewShardsSample.cs**. For more information see [Shard Map Management](http://go.microsoft.com/?linkid=9862595).
-
+	> **Hinweis:** Das iterative hinzufügen von Shards wird durch den Coide in
+ **AddNewShardsSample.cs** durchgeführt. Für mehr Informationen sehen Sie sich [Shard Map Management](http://go.microsoft.com/?linkid=9862595) an.
 
 	![Adding a new shard](./images/adding-a-new-shard.png)
 
-	_Adding a new shard_
+	_Hinzufügen eines neuen Shard_
 
-1. Switch back to the **Management Portal**. You should see a new database for the new shard named _ElasticScaleStarterKit_Shard2_.
+1. Wechseln Sie zurück ins **Management Portal**. Sie sollten hier nun eine neue Datenbank für den neuen Shard mit dem Namen _ElasticScaleStarterKit_Shard2_ sehen.
 
 	![Viewing the new database in the portal ](./images/seeing-the-new-database-in-the-portal.png)
 
-	_Viewing the new database in the portal_
+	_Die neue Datenbank im Portal_
 
-1. Switch back to the application, type **5** and press **_enter_**. This will drop all the shards and the map manager database.
+1. Wechseln Sie wieder in die Anwendung, tippen Sie **5** und drücken Sie **_Enter_**. Dies wird alle Shards und die Map Manager Datanbank verwerfen.
 
 	![Removing the shards and the map manager](./images/removing-the-shards.png)
 
-	_Removing the shards and the map manager_
+	_Entfernen der Shards und des Map Manager_
 
-1. Stop debugging.
+1. Stoppen Sie das Debugging.
 
-You have successfully built and run your first Elastic Scale application on Azure SQL DB. You can find information on other Elastic Scale operations in the following links:
+Sie haben nun erfolgreich Ihre erste Elastic Scale Application auf Azure SQl Database erstellen und ausgeführt. Sie können mehr Informationen über Elastic Scale Operationen unter den folgenden Links finden:
 
-* **Splitting an existing shard**: The capability to split shards is provided through the **Split/Merge service**. You can find more information about this service here: [Split/Merge Service](http://go.microsoft.com/?linkid=9862795).
+* **Teilung eines existierenden Shards**: Die Fähigkeit Shards zu teilen wird duch den **Split/Merge service** bereitgestellt. Mehr Informationen finden Sie hier: [Split/Merge Service](http://go.microsoft.com/?linkid=9862795).
 
-* **Merging existing shards**: Shard merges are also performed using the **Split/Merge service**. For more information, see [Split/Merge Service](http://go.microsoft.com/?linkid=9862795). 
+* **Zusammenführen existirender Shards**: Zusammenführungen von Shards wird auch durch den **Split/Merge service** ermöglicht. Mehr Informationen finden Sie hier: [Split/Merge Service](http://go.microsoft.com/?linkid=9862795). 
 
 <a name="cleanup"></a>
-##Appendix - Cleanup
+##Anhang - Aufräumen
 
-In this task you will learn how to delete the SQL Database Server created in the first task.
+In diesem Schritt werden Sie den SQL Database Server löschen, welchen wir im ersten Schritt angelegt haben.
 
-1. Sign in to the [Management Portal](http://manage.windowsazure.com).
+1. Melden Sie sich am [Management Portal](http://manage.windowsazure.com) an.
 
-1. On the sidebar, click **SQL DATABASES**. Then click the **SERVERS** tab. 
+1. Klicken Sie auf der seitlichen Leiste auf **SQL DATABASES**. Wählen Sie dann die Registerkarte **SERVERS**. 
 
-1. Click the row for the server you created to select it and then click **DELETE** from the bottom bar.
+1. Klicken Sie auf die Reihe mit dem Server, den Sie zuvor erstellt haben. Klicken Sie dann auf **DELETE** in der unteren Leiste.
 
-1. In the confirmation dialog that appears, type the server name and the click the check mark button.
+1. Im Bestätigungsdialog müssen Sie noch einmal den Servernamen angeben und auf den Haken klicken.
 
 ![Delete server confirmation dialog](images/delete-server-confirmation-dialog.png?raw=true)
 
-_Delete server confirmation dialog_
+_Bestätigung des Löschens_
 
-The server will be deleted. Once it is done you should see a notification in the bottom bar.
+Der Server wird nun gelöscht. Sobald dies erledigt ist, werden Sie einen Hinweis in der unteren Leiste sehen.
 
-##Summary
+##Zusammenfassung
 
-By completing this lab you have learned the basic concepts of Azure SQL Database Elastic Scale: Shard Map Management, Data Dependent Routing and Multi-Shard Querying.
+In diesem Lab haben Sie die wesentlichen Konzepte von Azure SQL Database Elastic Scale kennengelernt: Shard Map Management, Data Dependent Routing und Multi-Shard Querying.
