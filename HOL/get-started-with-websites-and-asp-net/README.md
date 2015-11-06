@@ -55,7 +55,7 @@ In diesem Schritt werden Sie die Web Anwendung erstellen, die in diesem Lab verw
 	
 8. Klicken Sie dann auf **OK**.
 
-	In wenigen Sekunden erzeugt Visual Studio ein Web Projekt in gewählen Ordner. Es wird außerdem eine Azure Web in der gewählten Region erstellt.
+	In wenigen Sekunden erzeugt Visual Studio ein Web Projekt im gewählen Ordner. Es wird außerdem eine Azure Web App in der gewählten Region erstellt.
 	
 	Der **Solution Explorer** zeigt nun die Dateien und Ordner im neuen Projekt.
 
@@ -67,9 +67,9 @@ In diesem Schritt werden Sie die Web Anwendung erstellen, die in diesem Lab verw
 
 	![Web App created](./images/web-publish-view.png)
 
-	_Web App erstellt
+	_Web App erstellt_
 
-	Sie können die Web App nun auch im **Cloud Explorer" sehen.
+	Sie können die Web App nun auch im **Cloud Explorer** sehen.
 
 	> **Hinweis:** Wenn der Cloud-Explorer nicht angezeigt wird, können Sie ihn über das **View** Menü einblenden.
 
@@ -80,15 +80,15 @@ In diesem Schritt werden Sie die Web Anwendung erstellen, die in diesem Lab verw
 <a name="Task2"></a>
 ## Veröffentlichen der Anwendung auf Azure
 
-1. Im **Azure App Service Activity** Fenster, klickek Sie auf **Publish ContactManager to this Web App now**. Falls diese Schaltfläche nicht angezeigt wird, können Sie auch mit der Rechten Maustaste auf das Projekt im **Solution Explorer** klickt und dann auf den Punkt **Publish**.
+1. Im **Azure App Service Activity** Fenster, klicken Sie auf **Publish ContactManager to this Web App now**. Falls diese Schaltfläche nicht angezeigt wird, können Sie auch mit der rechten Maustaste auf das Projekt im **Solution Explorer** klicken und dann auf den Punkt **Publish**.
 
 	![Web App created](./images/web-publish-view-2.png)
 
-    _Azure App Service Activity Fenster
+    _Azure App Service Activity Fenster_
 
 	Innerhalb von wenigen Sekunden erscheint der **Publish Web** Dialog.
 	
-	Die Einstellungen, welche Visual Studio für einen Veröffentlung des Projektes benötigt, wurden in einem *Publish Profile* gespeichert. In diesem Dialog können wir nun die diese Einstellungen prüfen. Klicken Sie dafür auf **Next**.
+	Die Einstellungen, welche Visual Studio für einen Veröffentlung des Projektes benötigt, wurden in einem *Publish Profile* gespeichert. In diesem Dialog können wir nun diese Einstellungen prüfen. Klicken Sie dafür auf **Next**.
 
 2. In der Registerkarte **Connection** des **Publish Web** Dialogs, können Sie nun auf **Validate Connection** klicken, um sicher zu gehen, dass Visual Studio sich zu Azure verbinden kann.
 
@@ -108,7 +108,7 @@ In diesem Schritt werden Sie die Web Anwendung erstellen, die in diesem Lab verw
 
 	* **Remove additional files at destination**.
 
-		Löscht Dateien auf dem Server, die nicht in Ihrem Projekt sind. Sie könnten diese Einstellunge benötigen, wenn Sie ein Projekt auf eine Seite veröffentlichen, die Sie zuvor für ein anderen Projekt benutzt haben.
+		Löscht Dateien auf dem Server, die nicht in Ihrem Projekt sind. Sie könnten diese Einstellunge benötigen, wenn Sie ein Projekt auf eine Seite veröffentlichen, die Sie zuvor für ein anderes Projekt benutzt haben.
 
 	* **Precompile during publishing**.
 
@@ -130,7 +130,7 @@ In diesem Schritt werden Sie die Web Anwendung erstellen, die in diesem Lab verw
 
 	_Start Preview Button_
 
-	Die Registerkarte zeigt eine Liste der Deteien an, welche auf den Server kopiert werden. Ein Anzeigen der Preview ist für das veröffentlichen einer Anwendung auf Azure nicht zwingend erforderlich.
+	Die Registerkarte zeigt eine Liste der Dateien an, welche auf den Server kopiert werden. Ein Anzeigen der Preview ist für das Veröffentlichen einer Anwendung auf Azure nicht zwingend erforderlich.
 
 6. Klicken Sie auf **Publish**.
 
@@ -161,7 +161,7 @@ In diesem Schritt werden Sie die Web Anwendung erstellen, die in diesem Lab verw
 <a name="Task3"></a>
 ## Durchführung von Änderungen und Neuveröffentlichung
 
-In dieser Aufgabe werden wir **h1** Überschrift der Home Page ändern, das Projekt lokal auführen, um die Änderungen zu überprüfen und die Änderung dann auf Azure veröffentlichen.
+In dieser Aufgabe werden wir die **h1** Überschrift der Home Page ändern, das Projekt lokal auführen, um die Änderungen zu überprüfen und die Änderung dann auf Azure veröffentlichen.
 
 1. Öffnen Sie die *Views/Home/Index.cshtml* Datei im **Solution Explorer**, ändern Sie die **h1** Überschrift von "ASP.NET" in "ASP.NET and Azure" und speichern Sie die Datei.
 
@@ -173,7 +173,7 @@ In dieser Aufgabe werden wir **h1** Überschrift der Home Page ändern, das Proj
 
     _Ändern der Überschrift_
 
-2. Drücken Sie **CTRL+F5**, um die akualisierte Überschrift auf der lokal ausgeführten Seite zu sehen.
+2. Drücken Sie **STRG+F5**, um die akualisierte Überschrift auf der lokal ausgeführten Seite zu sehen.
 
 	![Web App running locally](./images/running-localhost.png)
 
@@ -191,7 +191,7 @@ In dieser Aufgabe werden wir **h1** Überschrift der Home Page ändern, das Proj
 
 	Nun erscheint die Registerkarte Preview des **Publish Web** Dialogs. Wenn Sie auf einer anderen Registerkarte eine Änderung vornehmen müssen, können Sie nun auf diese wechseln. Wir möchten aber an dieser Stelle mit den gleichen Einstellungen die Webanwendung erneut veröffentlichen.
 	
-5. Klicken Sie im **Publish Web** auf **Publish**.
+5. Klicken Sie im **Publish Web** Dialog auf **Publish**.
 
 	![Click Publish](./images/click-publish-no-preview.png)
 
@@ -203,7 +203,7 @@ In dieser Aufgabe werden wir **h1** Überschrift der Home Page ändern, das Proj
 
 	_Die Änderungen wurden veröffentlicht_
 
-	>**Tipp:** Sie können die *Web One Click Publish** toolbar für schnelleres Deployment aktivieren. Klicken Sie auf **View** > **Toolbars** und wählen Sie **Web One Click Publish** aus. Die Toolbar ermöglicht es Ihnen ein Profil zu wählen, mit einem Klick zu veröffentlichen und desn **Publish Web** Dialog zu öffnen.
+	>**Tipp:** Sie können die **Web One Click Publish** toolbar für schnelleres Deployment aktivieren. Klicken Sie auf **View** > **Toolbars** und wählen Sie **Web One Click Publish** aus. Die Toolbar ermöglicht es Ihnen ein Profil zu wählen, mit einem Klick zu veröffentlichen und den **Publish Web** Dialog zu öffnen.
 
 	![Web One Click Publish Toolbar](./images/publish-toolbar.png)
 
@@ -226,7 +226,7 @@ Das [Azure Preview Portal](https://portal.azure.com/) ist ein Webinterface, mit 
 
 	![Web Apps blade with the Web App called out](./images/select-website.png)
 
-    _Web Apps Blade
+    _Web Apps Blade_
 
 3. Diese Seite gibt Ihnen einen Überblick über Ihre Web App.
 
@@ -236,11 +236,11 @@ Das [Azure Preview Portal](https://portal.azure.com/) ist ein Webinterface, mit 
 
   	_Web App Überblicksseite_
 
-	Zu diesem Zeitpunkt hat Ihre Seite noch nicht viel Traffic, enthält der Graph kaum Informationen. Wenn Sie Ihre Anwendung besuchen bzw. die Seite aktualisieren, sollte Sie an dieser Stelle Traffic sehen.
+	Zu diesem Zeitpunkt hat Ihre Seite noch nicht viel Traffic, daher enthält der Graph kaum Informationen. Wenn Sie Ihre Anwendung besuchen bzw. die Seite aktualisieren, sollte Sie an dieser Stelle Traffic sehen.
 
 4. Klicken Sie nun auf **Settings** im oberen Bereich der Seite. Dann auf **Application Settings**.
 
-	Die [Application Settings](http://azure.microsoft.com/en-us/documentation/articles/web-sites-configure/) Seite ermöglicht es die .Net Version zu steuern, zusätzliche Funktionen wie [WebSockets](http://azure.microsoft.com/blog/2013/11/14/introduction-to-websockets-on-windows-azure-web-sites/), [Diagnostic Logging](http://azure.microsoft.com/en-us/documentation/articles/web-sites-enable-diagnostic-log/) zu aktivieren, die Werte der [Connection String](http://azure.microsoft.com/blog/2013/07/17/windows-azure-web-sites-how-application-strings-and-connection-strings-work/) zu setzen und vieles mehr.
+	Die [Application Settings](http://azure.microsoft.com/en-us/documentation/articles/web-sites-configure/) Seite ermöglicht es die .Net Version zu steuern, zusätzliche Funktionen wie [WebSockets](http://azure.microsoft.com/blog/2013/11/14/introduction-to-websockets-on-windows-azure-web-sites/) und [Diagnostic Logging](http://azure.microsoft.com/en-us/documentation/articles/web-sites-enable-diagnostic-log/) zu aktivieren, die Werte der [Connection String](http://azure.microsoft.com/blog/2013/07/17/windows-azure-web-sites-how-application-strings-and-connection-strings-work/) zu setzen und vieles mehr.
 
 	![Portal Web App Application Settings blade ](./images/website-configure.png)
 
@@ -256,7 +256,7 @@ Das [Azure Preview Portal](https://portal.azure.com/) ist ein Webinterface, mit 
 
 6. Klicken Sie nun auf die **Scale** Option im Bereich **App Service Plan**.
 
-	Für die kostenpflichtigen Stufen eines Azure App Service ermöglicht es die [Scale](http://azure.microsoft.com/en-us/documentation/articles/web-sites-scale/)-Option die Anzahl der Maschinen, die Ihre Web Anwendung ausliefern, bei sich änderndem Traffic anzupassen.
+	Für die kostenpflichtigen Stufen eines Azure App Service ermöglicht es die [Scale](http://azure.microsoft.com/en-us/documentation/articles/web-sites-scale/)-Option die Anzahl der Maschinen, die Ihre Web Anwendung ausliefern, dem sich ändernden Traffic anzupassen.
 
 	Sie können manuell, gemäß festgelegter Kriterien oder nach Zeitplänen skalieren.
 
@@ -283,7 +283,7 @@ In diesem Schritt werden wir die gerade angelegte Web App wieder löschen und im
 
 	_Klicken auf "Delete" zum löschen der Web App_
 
-5. Bestätigen Sie das Löschen im **Delete app** Dialog mit **Yes**.
+5. Bestätigen Sie das Löschen im **Delete App** Dialog mit **Yes**.
 
 	Dies wird Ihre Web App löschen. Ihre Datenbank ist jedoch noch intakt. Falls Sie Ihre Datenbank löschen wollen, folgen Sie den nächsten Anweisungen.
 
@@ -297,7 +297,7 @@ In diesem Schritt werden wir die gerade angelegte Web App wieder löschen und im
 
 	![SQL Database delete](./images/sql-database-blade-click-delete.png)
 
-9. Bestätigen Sie die RÜckfrage mit einem Klick auf **Yes**.
+9. Bestätigen Sie die Rückfrage mit einem Klick auf **Yes**.
 
 ## Zusammenfassung
 
