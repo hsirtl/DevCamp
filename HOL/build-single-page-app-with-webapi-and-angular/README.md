@@ -1,181 +1,189 @@
-﻿Building a Single Page Application (SPA) with ASP.NET Web API and Angular.js using Azure Active Directory to Log in Users
-=======================================================================================
+﻿Bereitstellung einer Single Page Application auf Azure Web Apps mit Web API und AngularJS und Nutzung von Azure AD zur Benutzerauthentifizierung
+================================================================================================================================================
 
-In traditional web applications, the client (browser) initiates the communication with the server by requesting a page. The server then processes the request and sends the HTML of the page to the client. In subsequent interactions with the page –e.g. the user navigates to a link or submits a form with data– a new request is sent to the server, and the flow starts again: the server processes the request and sends a new page to the browser in response to the new action requested by the client.
+In klassischen Web Anwendungen initiiert der Client (Browser) die Kommunikation mit dem Server, indem er per Request eine Seite anfordert. Der Server verarbeitet diese Anfrage und schickt entsprechendes HTML zum Client zurück. In folgenden Interaktionen mit der Seite - der Anwender klickt beispielsweise auf einen Link oder schickt Formulareingaben an den Server - wird ein weiterer Request an den Server geschickt und die Abfolge startet von Neuem, d.h. der Server verarbeitet den Request und schickt eine zur Anfrage des Client entsprechende Seite zum Browser.
 
-In Single-Page Applications (SPAs) the entire page is loaded in the browser after the initial request, but subsequent interactions take place through Ajax requests. This means that the browser has to update only the portion of the page that has changed; there is no need to reload the entire page. The SPA approach reduces the time taken by the application to respond to user actions, resulting in a more fluid experience.
+Bei Single-Page Anwendungen (SPAs) wird die gesamte Seite nach dem initialen Request in den Browser geladen. Folgende Interaktionen werden via Ajax Requests abgehandelt. Das bedeutet, dass der Browser nur die Teile einer Seite aktualisieren muss, die sich tatsächlich geändert haben; er muss also nicht die gesamte Seite laden. Der SPA Ansatz reduziert die Zeit, die für eine Reaktion auf Benutzer-Aktionen benötigt wird. Die Darstellung wirkt dadurch flüssiger.
 
-The architecture of a SPA involves certain challenges that are not present in traditional web applications. However, emerging technologies like ASP.NET Web API, JavaScript frameworks like AngularJS and new styling features provided by CSS3 make it really easy to design and build SPAs.
+Die Architektur von SPAs bringt gewisse neue Herausforderungen, die es so in klassischen Web Anwendungen nicht gibt. Allerdings vereinfachen neue Werkzeuge und Frameworks wie ASP.NET Web API, JavaScript Frameworks wie AngularJS und neue Styling-Features in CSS3 die Erstellung von SPAs erheblich.
 
-In this lab, you will take advantage of those technologies to implement Geek Quiz, a trivia website based on the SPA concept. You will first implement the service layer with ASP.NET Web API to expose the endpoints required to retrieve the quiz questions and store the answers. Then, you will build a rich and responsive UI using AngularJS and CSS3 transformation effects.
+In diesem Lab verwenden Sie diese Technologien zur Implementierung von GeekQuiz, eine einfache Website basierend auf dem SPA Ansatz. Sie werden zunächst eine Service-Schicht mit ASP.NET Web API implementieren und die für das Laden von Fragen und Speichern von Antworten erforderlichen Endpunkte bereitstellen. Darauf aufbauend werden Sie dann mit AngularJS und CSS3 eine UI erstellen.
 
-This lab includes the following tasks:
+Dieses Lab umfasst folgende Schritte:
 
-* [Adding a Global Administrator to your Active Directory](#adding-global-administrator-to-AAD)
-* [Creating the Initial Project for Geek Quiz](#creating-the-initial-project-for-geek-quiz)
-* [Creating the TriviaController Web API](#creating-the-triviacontroller-web-api)
-* [Running the Solution](#running-the-solution)
-* [Creating the SPA Interface Using AngularJS](#creating-the-spa-interface-using-angularjs)
-* [Running the Single Page Application](#running-the-single-page-application)
-* [Creating a Flip Animation Using CSS3](#creating-a-flip-animation-using-css3)
-* [Deploying the Application to Azure](#deploying-the-app-to-azure)
-* [Appendix - Cleanup](#cleanup)
+* [Einen globalen Admin zum Azure AD hinzufügen](#adding-global-administrator-to-AAD)
+* [Erstellen eines initialen Projekts für das Geek Quiz](#creating-the-initial-project-for-geek-quiz)
+* [Erstellen der TriviaController Web API](#creating-the-triviacontroller-web-api)
+* [Ausführen der Solution](#running-the-solution)
+* [Erstellen des SPA Interface mit Hilfe von AngularJS](#creating-the-spa-interface-using-angularjs)
+* [Ausführen der Single Page Application](#running-the-single-page-application)
+* [Erstellen einer Flip Animation mit Hilfe von CSS3](#creating-a-flip-animation-using-css3)
+* [Deployment der Anwendung nach Azure](#deploying-the-app-to-azure)
+* [Anhang](#cleanup)
 
 <a name="adding-global-administrator-to-AAD"></a>
-## Adding a Global Administrator to your Active Directory
+## Einen globalen Admin zum Azure AD hinzufügen
 
-Microsoft ASP.NET tools for Azure Active Directory makes it simple to enable authentication for web applications hosted on [Azure App Service](http://azure.microsoft.com/en-us/services/app-service/web/) as a **Web App**. You can use Azure Authentication to authenticate Office 365 users from your organization, corporate accounts synced from your on-premise Active Directory or users created in your own custom Azure Active Directory domain. Enabling Azure Authentication configures your application to authenticate users using a single [Azure Active Directory](http://azure.microsoft.com/en-us/services/active-directory/) tenant.
+Die Microsoft ASP.NET Tools für Azure Active Directory vereinfachen die Integration von Authentifizierung in Web Anwendungen, die als **Web Apps** im [Azure App Service](http://azure.microsoft.com/en-us/services/app-service/web/) gehostet werden, massiv. Sie können Azure Authentivation dazu verwenden, um Office-365-Benutzer aus Ihrer Organisation, aus einem lokalen Active Directory synchronisierte Corporate Accounts oder Anwender, die direkt im Azure AD angelegt wurden, zu authentifizieren. Die Aktivierung der Azure Authentication konfiguriert die Anwendunge so, dass Benutzer über einen einzigen [Azure Active Directory](http://azure.microsoft.com/en-us/services/active-directory/) Tenant authentifiziert werden.
 
-1. Sign in to the [Azure Management Portal](https://manage.windowsazure.com/).
-2. Most Azure accounts contain a **Default Directory**. You can find if yours does by clicking the **Active Directory** option on the sidebar that is on left side of the page.
-	If you do not have a default directory, follow the instructions in the note to create one.
+1. Melden Sie sich beim [Azure Management Portal](https://manage.windowsazure.com/) an.
 
-	> **Note:** If your suscription does not have the **Default Directory** or you want to create one, click the **Add Directory** option.
+2. Die meisten Azure Accounts enthalten ein **Default Directory**. Sie finden Ihres, indem Sie in der Sidebar auf den Menüpunkt **Active Directory** klicken.
 
-	>![Creating new directory](images/creating-new-directory.png?raw=true)
+	> **Hinweis:** Wenn Ihre Subscription noch kein **Default Directory** hat, oder Sie eines anlegen wollen, klicken Sie auf die Schaltfläche **Add Directory**.
 
-	> _Creating new Active Directory_
+	>![Erstellen eines neuen Verzeichnisses](images/creating-new-directory.png?raw=true)
 
-	> Alternatively, you can click the **NEW** button at the bottom bar, select **App Services**, **Active Directory**, **Directory**, and click **Custom Create**. This is shown in the following image.
+	> _Erstellen eines neuen Verzeichnisses_
 
-	>![Add User dialog 2](./images/CreatingCustomDirectory.png)
+	> Alternativ können Sie die Schaltfläche **NEW** in der unteren Befehlszeile wählen. Wählen Sie dort **App Services**, **Active Directory**, **Directory**, und wählen Sie **Custom Create**.
 
-	> In the **Add directory** dialog, enter a name for your directory, a country or region, and a unique domain name. Finally, click the **check mark button** to create the directory.
+	>![Erstellen eines neuen Verzeichnisses](./images/CreatingCustomDirectory.png)
 
-	>![Add User dialog 2](./images/AddDirectoryDialog.png)
+    > _Erstellen eines neuen Verzeichnisses_
 
-3. In the **Active Directory** page, click on your directory.
+	> Geben Sie im **Add directory** Dialog einen Namen für das Verzeichnis, ein Land oder Region, und einen global eindeutigen Domain Namen an. Bestätigen Sie mit der Schaltfläche **Complete**, um das Verzeichnis anzulegen.
 
-	You will create a new user with the **Global Administrator** role. Click **Users** from the top menu, and then click the **Add User** button on the command bar.
+	>![Die Eingabemaske zum Anlegen eines neues Verzeichnisses](./images/AddDirectoryDialog.png)
 
-	![Adding an Active Directory User](./images/addingUser.png)
+    > _Die Eingabemaske zum Anlegen eines neues Verzeichnisses_
 
-	_Adding an Active Directory User_
+3. Wählen Sie auf der Übersichtsseite zum **Active Directory** Ihr Verzeichnis.
 
-5. In the **Add User** dialog, enter a name for the new user and then click the right arrow.
+	Legen Sie jetzt einen neuen User mit **Global Administrator** Rolle an. Wählen Sie hierzu den Reiter **Users** aus dem oberen Menü und dann die Schaltfläche **Add User** aus der Befehlszeile.
 
-	![Add User dialog](./images/addUserDialog1.png)
+	![Hinzufügen eine Active Directory Users](./images/addingUser.png)
 
-	_Add User dialog - Page 1_
+	_Hinzufügen eines Active Directory Users_
 
-6. Enter the user name and set the role to **Global Administrator**. Global administrators require an alternate email address for password recovery purposes. After you're finished, click the right arrow.
+5. In der Eingabemaske **Add User** geben Sie einen Namen für den User ein und wählen die Schaltfläche **Next**.
 
-	![Add User dialog 2](./images/addUserDialog2.png)
+	![Eingabemaske für einen neuen User - Teil 1](./images/addUserDialog1.png)
 
-	_Add User dialog - Page 2_
+	_Eingabemaske für einen neuen User - Teil 1_
 
-7. On the next page of the dialog, click **Create**. A temporary password will be created for the new user and displayed in the dialog.
+6. Geben Sie auf der nächsten Seite den Namen des Users ein und wählen Sie als Rolle **Global Administrator**. Globale Administratoren benötigen eine alternative E-Mail-Adresse im Falle der Notwendigkeit zur Wiederherstellung des Passwortes. Wählen Sie dann die Schaltfläche **Next**.
 
-	![Add User dialog](./images/addUserDialog3.png)
+	![Eingabemaske für einen neuen User - Teil 2](./images/addUserDialog2.png)
 
-	_Add User dialog - Page 3_
+	_Eingabemaske für einen neuen User - Teil 2_
 
-	Note down the password. You will be required to change the password after the first log in.
+7. Wählen Sie auf der nächsten Seite die Schaltfläche **Create**. Daraufhin wird für den User ein temporäres Passwort erzeugt und in der Eingabemaske angezeigt.
 
-	![Add User Dialog - Page 4](images/add-user-dialog---page-4.png?raw=true)
+	![Eingabemaske für einen neuen User - Teil 3](./images/addUserDialog3.png)
 
-	The following image shows the new admin account.
+	_Eingabemaske für einen neuen User - Teil 3_
 
-	> **Note:** You **must** use the Azure Active Directory to log into your app, **not the Microsoft account** also shown on this page.
+	Notieren Sie sich das Passwort. Sie werden es beim nach dem ersten Anmelden zum Ändern des Passwortes benötigen.
 
-	![The new User](./images/theNewUser.png)
+	![Eingabemaske für einen neuen User - Teil 4](images/add-user-dialog---page-4.png?raw=true)
 
-	_The new User_
+    _Eingabemaske für einen neuen User - Teil 4_
+
+	Die folgende Abbildung zeigt den neuen Admin Account.
+
+	> **Hinweis:** Später **müssen** Sie das Azure Active Directory zum anmdelden verwenden, **nicht den Microsoft Account**, den Sie ebenfalls dort sehen.
+
+	![Der neue User](./images/theNewUser.png)
+
+	_Der neue User_
 
 <a name="creating-the-initial-project-for-geek-quiz"></a>
-## Creating the Initial Project for Geek Quiz
+## Erstellen eines initialen Projekts für das Geek Quiz
 
-In this task you will start creating a new ASP.NET MVC project with support for ASP.NET Web API. You will then add the Entity Framework's model classes and the database initializator to insert the quiz questions.
+In dieser Übung werden Sie ein neues ASP.NET MVC Projekt mit ASP.NET Web API Support erstellen. Sie werden dann die Model Classes für das Entity Framework hinzufügen und die Datenbank-Initialisierung zur Speicherung der Quiz-Fragen implementieren.
 
-1. Open Visual Studio and from the **File** menu, hover over the **New** option and click **Project**.
+1. Öffnen Sie Visual Studio und wählen Sie den Menüpunkt **File** > **New** > **Project**.
 
-    ![Creating a New Project](./images/newProject.png)
+    ![Erstellen eines neuen Projekts](./images/newProject.png)
 
-    _Creating a New Project_
+    _Erstellen eines neuen Projekts_
 
-	> Note: You can open the end solution from end/Geek Quiz and configure it according to the instructions in [Setting up the end solution for Geek Quiz](end).
-
-2. In the **New Project** dialog box, select **ASP.NET Web Application** under the **Visual C# | Web** tab. Make sure **.NET Framework 4.5** is selected, name it GeekQuiz, choose a **Location** and click **OK**.
+2. In der Eingabemaske **New Project**, wählen Sie den Eintrag **ASP.NET Web Application** im **Visual C# | Web** Tab. Stellen Sie sicher, dass **.NET Framework 4.5** (oder höher) ausgewählt ist, benennen Sie das Projekt _GeekQuiz_ , wählen Sie eine **Location** und bestätigen Sie mit **OK**.
 
 	> **Note:** You may also want to uncheck the **Add Application Insights to Project** if you don't want the functionality for your application.
 
-    ![Creating a new ASP.NET Web Application project](./images/newProject-dialog.png)
+    ![Erstellen eines neuen ASP.NET Web Application Projekts](./images/newProject-dialog.png)
 
-    _Creating a new ASP.NET Web Application project_
+    _Erstellen eines neuen ASP.NET Web Application Projekts_
 
-3. In the **New ASP.NET Project** dialog, select **MVC**. Make sure that the **Host in the cloud** option is also selected, and then click **Change Authentication**.
+3. In der Eingabemaske **New ASP.NET Project** wählen Sie **MVC**. Stellen Sie sicher, dass die Option **Host in the cloud** ausgewählt ist, und wählen Sie dann die Schaltfläche **Change Authentication**.
 
-    ![Creating a new project with the MVC template, including Web API components](./images/newMvcProjectTemplate.png)
+    ![Erstellen eines neuen Projekts basierend auf dem MVC Template, einschließlich Web API Komponenten](./images/newMvcProjectTemplate.png)
 
-    _Creating a new project with the MVC template, including Web API components_
+    _Erstellen eines neuen Projekts basierend auf dem MVC Template, einschließlich Web API Komponenten_
 
-4. On the **Change Authentication** dialog, select **Organizational Accounts**.
+4. In der **Change Authentication** Eingabemaske wählen Sie **Work And School Accounts**.
 
-	These options can be used to automatically register your application with Azure AD as well as to automatically configure your application to integrate with Azure AD. You don't have to use the **Change Authentication** dialog to register and configure your application, but it makes it much easier. If you are using Visual Studio 2012 for example, you can still manually register the application in the Azure Management Portal and update its configuration to integrate with Azure AD.
+	Mit diesen Einstellungen registrieren Sie Ihre Anwendung automatisch mit Azure AD und konfigurieren die Integration mit Azure AD. Für eine Registrierung beim Azure AD ist **Change Authentication** zwar nicht notwendig, es vereinfacht den Registrierungsprozess aber. Sollten Sie mit Visual Studio 2012 arbeiten, können Sie die Anwendung im Management Portal manuell registrieren und die Integration konfigurieren.
 
-	In the drop-down menus, select **Cloud - Single Organization** and **Single Sign On, Read directory data**. Enter the domain for your Azure AD directory (e.g. myADdomainoutlook.onmicrosoft.com) and then click **OK**. You can get the domain name from the Domains tab for the Default Directory on the azure portal (see the next image down).
+	Wählen Sie in den Dropdown-Listen **Cloud-Single Organization** und Ihr zuvor angelegtes Azure AD Verzeichnis. Markieren Sie die Option **Read directory data**. Bestätigen Sie Ihre Eingabe mit **OK**.
 
-    ![Changing Authentication_](./images/changingAutentication.png)
+    ![Änderung der Authentifizierung](./images/changingAutentication.png)
 
-    _Changing Authentication_
+    _Änderung der Authentifizierung_
 
-	The following image shows the domain name from the Azure portal.
+	Die folgende Abbildung zeigt den Domain-Namen im Azure Portal.
 
 	![Azure Portal](./images/azure-domains.png)
 
     _Azure Portal_
 
-    > **Note:** You can optionally configure the Application ID URI that will be registered in Azure AD by clicking **More Options**. The App ID URI is the unique identifier for an application, which is registered in Azure AD and used by the application to identify itself when communicating with Azure AD. For more information about the App ID URI and other properties of registered applications, see [this topic](http://msdn.microsoft.com/en-us/library/azure/dn499820.aspx#BKMK_Registering <http://msdn.microsoft.com/en-us/library/azure/dn499820.aspx>). By clicking the checkbox below the App ID URI field, you can also choose to overwrite an existing registration in Azure AD that uses the same App ID URI.
+    > **Hinweis:** Alternativ können Sie über **More Options** die Application ID URI konfigurieren, die im Azure AD registriert wird. Die App ID URI ist die eindeutige ID, mit der sich die Anwendung beim Azure AD anmelden kann. Für weitere Informationen zur App ID URI und weitere Einstellungen für registrierte Anwendungen siehe [hier](http://msdn.microsoft.com/en-us/library/azure/dn499820.aspx#BKMK_Registering).
 
-5. After clicking **OK**, a sign-in dialog will appear, and you'll need to sign in using a Global Administrator account (not the Microsoft account associated with your subscription). If you created a new Administrator account earlier, you'll be required to change the password and then sign in again using the new password.
+5. Sofern Sie sich noch nicht zuvor bei Azure angemeldet haben, erscheint nach Auswahl von **OK**, eine Anmeldemaske, über die Sie sich mit dem globalen Administrator Account (nicht dem Microsoft Account, der zu Ihrer Subscription gehört) anmelden können. Wenn Sie sich zum ersten Mal mit diesen Daten anmelden, werden Sie aufgefordert, Ihr Passwort zu ändern und sich neu anzumelden.
 
-	![Sign in to Azure Active Directory](./images/signingInWithAAD.png)
+	![Anmeldung beim Azure Active Directory](./images/signingInWithAAD.png)
 
-    _Signing in to Azure Active Directory_
+    _Anmeldung beim Azure Active Directory_
 
-6. After you've successfully authenticated, the **New ASP.NET Project** dialog will show your authentication choice (**Organizational Auth**) and the directory where the new application will be registered (_your_account_name_.onmicrosoft.com in the image below). Check the box for **Web API**. Click **OK**.
+6. Nach erfolgreicher Anmeldung erscheint die **New ASP.NET Project** Eingebemaske dialog will show your authentication choice (**Organizational Auth**) and the directory where the new application will be registered (_your_account_name_.onmicrosoft.com in the image below). Check the box for **Web API**. Click **OK**.
 
-7. The **Configure Microsoft Azure Web App** dialog will appear, using an auto-generated site name and region. Also note the account you're currently signed into in the dialog. You want to make sure that this account is the one that your Azure subscription is attached to, typically a Microsoft account.
+7. Die **Configure Microsoft Azure Web App** Eingabemaske erscheint. Darin ist ein automatisch generierter Name für die Web App sowie eine ausgewählte Region enthalten. Beachten Sie den Account, mit dem Sie an die Maske angemeldet sind. Dies sollte ein Account sein, er Ihrer Azure Subscription zugeordnet ist. Üblicherweise ist dies ein Microsoft Account.
 
-	This project requires a database. You need to select one of your existing databases, or create a new one. A database is required because the project already uses a local database file to store a small amount of authentication configuration data. When you deploy the application to an App Service Web App, this database isn't packaged with the deployment, so you need to choose one that's accessible in the cloud. Click **OK**.
+    Dieses Projekt erfordert eine SQL Database. Sie können eine vorhandene Datenbank auswählen oder eine neue erstellen. Eine Datenbank ist deshalb erforderlich, weil das Projekt kleinere Datenmengen zu Authentifizierungen in einem lokalen Datenbanken-File speichert. Wenn Sie die Anwendung deployen, wird dieses Datenbanken-File jedoch nicht in die Anwendung paketiert, weshalb eine Datenbank benötigt wird, die aus der Cloud zugreifbar ist. Bestätigen Sie Ihre Eingaben mit **OK**.
 
-	![Configuring Microsoft Azure Web App](./images/configuring-azure-website.png)
+	![Konfiguration der Microsoft Azure Web App](./images/configuring-azure-website.png)
 
-	_Configuring Microsoft Azure Web App_
+	_Konfiguration der Microsoft Azure Web App_
 
-	The project will be created, and your authentication options and App Service Web App options will be automatically configured with the project.
+	Daraufhin legt Visual Studio das Projekt an und fügt die Authentifizierungsinformationen für Azure dem Projekt hinzu. Visual Studio bestätigt dies im **Azure App Service Activity** View.
 
-8. In **Solution Explorer**, right-click the **Models** folder of the **GeekQuiz** project and select **Add | Existing Item**....
+    ![Bestätigung des Anlegens des Web App Projekts](./images/web-app-project-confirmation.png)
 
-    ![Adding an existing item](./images/add-existing-items.png)
+    _Bestätigung des Anlegens des Web App Projekts_
 
-    _Adding an existing item_
+8. Wählen Sie im **Solution Explorer** im **Models** Verzeichnis des **GeekQuiz** Projekts im Kontextmenü den Eintrag **Add | Existing Item**.
 
-9. In the **Add Existing Item** dialog box, navigate to the Source/Models folder and select all the files. Click **Add**.
+    ![Hinzufügen eines bestehenden Elements](./images/add-existing-items.png)
 
-    ![Adding the model assets](./images/add-models.png)
+    _Hinzufügen eines bestehenden Elements_
 
-    _Adding the model assets_
+9. Wählen Sie in der Eingaebemaske **Add Existing Item** aus dem Verzeichnis Source/Models dieses Labs alle Dateien aus. Bestätigen Sie mit **Add**.
 
-	> **Note:** By adding these files, you are adding the data model, the Entity Framework's database context and the database initializer for the Geek Quiz application.
+    ![Hinzufügen aller Model Klassen](./images/add-models.png)
 
-	**Entity Framework (EF)** is an object-relational mapper (ORM) that enables you to create data access applications by programming with a conceptual application model instead of programming directly using a relational storage schema. You can learn more about Entity Framework [here](https://entityframework.codeplex.com/).
+    _Hinzufügen aller Model Klassen_
 
-	The following is a description of the classes you just added:
+	> **Hinweis:** Durch Hinzufügen dieser Dateien, fügen Sie das Datenmodell, den Entity Framework Datenbank-Kontext und den Datenbank-Initialisierer der Geek Quiz Anwendung hinzu.
 
-    * **TriviaOption:** represents a single option associated with a quiz question
-    * **TriviaQuestion:** represents a quiz question and exposes the associated options through the **Options** property
-    * **TriviaAnswer:** represents the option selected by the user in response to a quiz question
-    * **TriviaContext:** represents the Entity Framework's database context of the Geek Quiz application. This class derives from **DbContext** and exposes **DbSet** properties that represent collections of the entities described above.
-    * **TriviaDatabaseInitializer:** the implementation of the Entity Framework initializer for the **TriviaContext** class which inherits from **CreateDatabaseIfNotExists**. The default behavior of this class is to create the database only if it does not exist, inserting the entities specified in the **Seed** method.
+	Das **Entity Framework (EF)** ist ein objekt-relationaler Mapper (ORM), der es ermöglicht, Datenzugriffe mittels eines konzeptionellen Anwendungsmodells anstatt mittels eines direkten relationalen Speicherschemas zu entwickeln. Weitere Informationen zum Entity Framework gibt es [hier](https://entityframework.codeplex.com/).
 
-10. Open the **Global.asax.cs** file and add the following using statement.
+    Im Folgenden eine Beschreibung der Dateien, die Sie gerade hinzugefügt haben:	
+
+    * **TriviaOption:** repräsentiert eine Antwortmöglichkeit einer Quiz-Frage
+    * **TriviaQuestion:** repräsentiert eine Quiz-Frage und stellt Antwortmöglichkeiten über das **Options** Property zur Verfügung
+    * **TriviaAnswer:** repräsentiert die durch einen User ausgewählte Antwortmöglichkeit
+    * **TriviaContext:** repräsentiert den Entity Framework Datenbank-Kontext der Geek Quiz Anwendung. Diese Klasse ist von **DbContext** abgeleitet und stellt **DbSet** Properties bereit, über die auf die Objekte der oben vorgestellten Klassen zugegriffen werden kann.
+    * **TriviaDatabaseInitializer:** die Implementierung des Entity Framework Initialisierers für den **TriviaContext**, welcher wiederum von **CreateDatabaseIfNotExists** abgeleitet ist. Sofern noch keine Datenbank existiert, legt dieser eine an und fügt die in der **Seed** Methode angegebenen Entitys ein.
+
+10. Öffnen Sie die Datei **Global.asax.cs** und fügen Sie das folgende Using Statement hinzu.
 
     ```C#
     using GeekQuiz.Models;
     ```
 
-11. Update the **Application_Start** method, adding the sentence to set the **TriviaDatabaseInitializer** as the database initializer at the beginning, as shown below.
+11. Aktualisieren Sie die **Application_Start** Methode, indem Sie die Zeile hinzufügen, die den **TriviaDatabaseInitializer** als Datenbank-Initialisierer festlegt.
 
 	<!-- mark:3 -->
     ```C#
@@ -191,7 +199,7 @@ In this task you will start creating a new ASP.NET MVC project with support for 
 	}
     ```
 
-12. Now you will modify the **Home** controller to restrict access to authenticated users. To do this, open the **HomeController.cs** file inside the **Controllers** folder and add the **Authorize** attribute to the **HomeController** class definition.
+12. Ändern Sie nun den **Home** Controller dahingehend, dass nur authentifizierte User auf dessen Methoden zugreifen können. Öffnen Sie hier zu die Datei **HomeController.cs** im Verzeichnis **Controllers** und fügen Sie das **Authorize** Attribut zur **HomeController** Klassendefinition hinzu.
 
     <!-- mark:3 -->
     ```C#
@@ -210,9 +218,9 @@ In this task you will start creating a new ASP.NET MVC project with support for 
     }
     ```
 
-    > **Note:** The **Authorize** filter checks to see if the user is authenticated. If the user is not authenticated, it returns HTTP status code 401 (Unauthorized) without invoking the action. You can apply the filter globally, at the controller level, or at the level of individual actions.
+    > **Hinweis:** Der **Authorize** Filter prüft, ob der User authentifiziert ist. Wenn dies nicht der Fall ist, gibt er einen HTTP Statuscode 401 (Unauthorized) zurück, ohne die Aktion auszuführen. Der Filter kann auf Controller Ebene oder auf der Ebene einzelner Aktionen angewandt werden.
 
-13. You will now customize the layout of the web pages and the branding. To do this, open the **_Layout.cshtml** file inside the **Views | Shared** folder and update the content of the `<title>` element by replacing _My ASP.NET Application_ with _Geek Quiz_.
+13. Passen Sie nun das Layout und das Branding der Webseiten an. Öffnen Sie hierzu die Datei **Layout.cshtml** im Verzeichnis **Views | Shared** und aktualisieren Sie den Inhalt des `<title>` Elements, indem Sie _My ASP.NET Application_ durch _Geek Quiz_ ersetzen.
 
     <!-- mark:4 -->
     ```HTML
@@ -225,7 +233,7 @@ In this task you will start creating a new ASP.NET MVC project with support for 
     </head>
     ```
 
-14. In the same file, update the navigation bar by removing the _About_ and _Contact_ links and renaming the _Home_ link to _Play_. Additionally, rename the _Application name_ link to _Geek Quiz_. The HTML for the navigation bar should look like the following code.
+14. Aktualisieren Sie in der gleichen Datei die Navigationsleiste, indem Sie die Links _About_ und _Contact_ entfernen und den Link _Home_ durch _Play_ ersetzen. Ändern Sie darüber hinaus den Anwendungsnamen in _Geek Quiz_ . Der HTML Code für die Navigationsleiste sollte wie folgt aussehen.
 
     <!-- mark:9,13 -->
     ```HTML
@@ -249,7 +257,7 @@ In this task you will start creating a new ASP.NET MVC project with support for 
     </div>
     ```
 
-15. Update the footer of the layout page by replacing _My ASP.NET Application_ with _Geek Quiz_. To do this, replace the content of the `<footer>` element with the one in the following code.
+15. Aktualisieren Sie die Fußzeile, indem Sie _My ASP.NET Application_ in _Geek Quiz_ ändern. Ersetzen Sie hierzu den Inhalt des `<footer>` Elements durch folgenden Code.
 
     <!-- mark:5 -->
     ```HTML
@@ -263,24 +271,24 @@ In this task you will start creating a new ASP.NET MVC project with support for 
     ```
 
 <a name="creating-the-triviacontroller-web-api"></a>
-## Creating the TriviaController Web API
+## Erstellen der TriviaController Web API
 
-In the previous task, you created the initial structure of the Geek Quiz web application. You will now build a simple Web API service that interacts with the quiz data model and exposes the following actions:
+In der letzten Übung haben sie die initiale Struktur der Geek Quiz Web Anwendung erstellt. Im Folgenden werden Sie einen einfachen Web API Service erstellen, der mit dem Quiz Datenmodell interagiert und folgende Methoden bereitstellt:
 
-* **GET /api/trivia:** Retrieves the next question from the quiz list to be answered by the authenticated user.
-* **POST /api/trivia:** Stores the quiz answer specified by the authenticated user.
+* **GET /api/trivia:** Liefert die nächste Quizfrage, die von einem angemeldeten User beantwortet werden soll.
+* **POST /api/trivia:** Speichert die Antwortoption, die vom User ausgewählt wurde.
 
-You will use the ASP.NET Scaffolding tools provided by Visual Studio to create the baseline for the Web API controller class.
+Verwenden Sie sie ASP.NET Scaffolding Werkzeuge von Visual Studio, um eine initiale Version der Web API Controller-Klasse zu erzeugen.
 
-1. Open the **WebApiConfig.cs** file inside the **App_Start** folder. This file defines the configuration of the Web API service, like how routes are mapped to Web API controller actions.
+1. Öffnen Sie die Datei **WebApiConfig.cs** im Verzeichnis **App_Start**. Diese Date definiert die Konfiguration des Web API Service, d.h. sie bestimmt, wie Abfragen auf Web API Controller Actions abgebildet werden.
 
-2. Add the following using statement at the beginning of the file.
+2. Fügen Sie folgendes Using Statement am Beginn der Datei ein.
 
     ```C#
     using Newtonsoft.Json.Serialization;
     ```
 
-3. Update the **Register** method to globally configure the formatter for the JSON data retrieved by the Web API action methods, as shown in the first sentence of the method below.
+3. Aktualisieren Sie die **Register** Methode, um den Formatierer für die JSON Daten, die über die Web API empfangen werden, global festzulegen. Editieren Sie die entsprechenden Zeilen wie folgt:
 
     <!-- mark:7-8 -->
     ```C#
@@ -305,31 +313,31 @@ You will use the ASP.NET Scaffolding tools provided by Visual Studio to create t
     }
     ```
 
-    > **Note:** The **CamelCasePropertyNamesContractResolver** automatically converts property names to camel case, which is the general convention for property names in JavaScript.
+    > **Hinweis:** Der **CamelCasePropertyNamesContractResolver** konvertiert automatisch die Property-Namen in das Camel Case Format, welches die allgemeine Konvention für Propertynamen in JavaScript ist.
 
-4. In **Solution Explorer**, right-click the **Controllers** folder of the **GeekQuiz** project and select **Add | New Scaffolded** Item....
+4. Klicken Sie im **Solution Explorer** mit der rechten Maustaste auf das **Controllers** Verzeichnis im **GeekQuiz** Projekt und wählen Sie den Menüpunkt **Add | New Scaffolded Item...**.
 
-    ![Creating a new scaffolded item](./images/add-controller.png)
+    ![Erstellung eines neuen Scaffolded Items](./images/add-controller.png)
 
-    _Creating a new scaffolded item_
+    _Erstellung eines neuen Scaffolded Items_
 
-5. In the **Add Scaffold** dialog box, make sure that the **Common** node is selected in the left pane. Then, select the **Web API 2 Controller - Empty** template in the center pane and click **Add**.
+5. Stellen Sie in der Eingabemaske **Add Scaffold** sicher, dass der **Common** Knoten auf der linken Seite ausgewählt ist. Markieren Sie die Vorlage **Web API 2 Controller - Empty** im mittleren Bereich und bestätigen Sie mit **Add**.
 
-    ![Selecting the Web API 2 Controller Empty template](./images/add-controller-dialog.png)
+    ![Auswahl der Web API 2 Controller Empty Vorlage](./images/add-controller-dialog.png)
 
-    _Selecting the Web API 2 Controller Empty template_
+    _Auswahl der Web API 2 Controller Empty Vorlage_
 
-    > **Note:** **ASP.NET Scaffolding** is a code generation framework for ASP.NET Web applications. Visual Studio 2013 includes pre-installed code generators for MVC and Web API projects. You should use scaffolding in your project when you want to quickly add code that interacts with data models in order to reduce the amount of time required to develop standard data operations.
+    > **Hinweis:** **ASP.NET Scaffolding** ist ein Code-Generierungsframework für ASP.NET Web Anwendungen. Visual Studio 2015 enthält bereits vorinstalliert Code-Generatoren für MVC und Web API Projekte. Sie sollten Scaffolding in Ihren Projekten verwenden, wenn Sie schnell Code, der mit Datenmodellen interagiert generieren möchten.
 
-	The scaffolding process also ensures that all the required dependencies are installed in the project. For example, if you start with an empty ASP.NET project and then use scaffolding to add a Web API controller, the required Web API NuGet packages and references are added to your project automatically.
+	Der Scaffolding Prozess stellt zudem sicher, dass alle benötigte Abhängigkeiten in das Projekt installiert werden. Wenn Sie beispielsweise mit einem leeren ASP.NET Projekt starten und mittels Scaffolding einen Web API Controller hinzufügen, werden die benötigte Web API NuGet Packages und Referenzen automatische zum Projekt hinzugefügt.
 
-6. In the **Add Controller** dialog box, type TriviaController in the **Controller name** text box and click **Add**.
+6. Tragen Sie in der **Add Controller** Eingabemaske als Namen für den Controller _TriviaController_ ein und bestätigen Sie mit **Add**.
 
-    ![Adding the Trivia Controller](./images/add-controller-name.png)
+    ![Hinzufügen des Trivia Controllers](./images/add-controller-name.png)
 
-    _Adding the Trivia Controller_
+    _Hinzufügen des Trivia Controllers_
 
-7. The **TriviaController.cs** file is then added to the **Controllers** folder of the **GeekQuiz** project, containing an empty **TriviaController** class. Add the following using statements at the beginning of the file:
+7. Die Datei **TriviaController.cs** wird zum Verzeichnis **Controllers**. Die Datei enthält eine leere **TriviaController** Klasse. Fügen Sie folgende Using Statements am Anfang der Datei ein.
 
     ```C#
     using System.Data.Entity;
@@ -339,8 +347,7 @@ You will use the ASP.NET Scaffolding tools provided by Visual Studio to create t
     using GeekQuiz.Models;
     ```
 
-
-8. Add the following code at the beginning of the **TriviaController** class, to define, initialize and dispose the **TriviaContext** instance in the controller.
+8. Fügen Sie am Anfang der **TriviaController** Klasse folgende Code-Zeilen ein, um die **TriviaContext** Instanz im Controller zu definieren, initialisieren und zu entsorgen.
 
     <!-- mark:3-13 -->
     ```C#
@@ -360,9 +367,9 @@ You will use the ASP.NET Scaffolding tools provided by Visual Studio to create t
     }
     ```
 
-	> **Note:** The **Dispose** method of **TriviaController** invokes the **Dispose** method of the **TriviaContext** instance, which ensures that all the resources used by the context object are released when the TriviaContext instance is disposed or garbage-collected. This includes closing all database connections opened by Entity Framework.
+	> **Hinweis:** Die **Dispose** Methode des **TriviaController**s ruft die **Dispose** Methode der **TriviaContext** Instanz auf, was sicherstellt, dass alle Ressourcen, die vom Context-Objekt verwendet werden, wieder freigegeben werden, wenn die TriviaContext Instanz entfernt oder vom Garbage-Collector beseitigt wird. Dies schließt das Schließen aller Datenbank-Verbindungen, die durch das Entity Framework geöffnet werden, mit ein.
 
-9. Add the following helper method at the end of the **TriviaController** class. This method retrieves the following quiz question from the database to be answered by the specified user.
+9. Fügen Sie folgende Hilfsmethoden am Ende der **TriviaController** Klasse ein. Diese Methode ermittelt die nächste Quiz-Frage von der Datenbank.
 
     ```C#
     private async Task<TriviaQuestion> NextQuestionAsync(string userId)
@@ -382,7 +389,7 @@ You will use the ASP.NET Scaffolding tools provided by Visual Studio to create t
     }
     ```
 
-10. Add the following **Get** action method to the **TriviaController** class. This action method calls the **NextQuestionAsync** helper method defined in the previous step to retrieve the next question for the authenticated user.
+10. Fügen Sie die folgende **Get** Action Methode in die **TriviaController** Klasse ein. Diese Action Methode ruft die **NextQuestionAsync** Hilfsmethode auf.
 
     ```C#
     // GET api/Trivia
@@ -402,7 +409,7 @@ You will use the ASP.NET Scaffolding tools provided by Visual Studio to create t
     }
     ```
 
-11. Add the following helper method at the end of the **TriviaController** class. This method stores the specified answer in the database and returns a Boolean value indicating whether or not the answer is correct.
+11. Fügen Sie folgende Hilfsmethode am Ende der **TriviaController** Klasse ein. Diese Methode speichert die ausgewählte Antwort in der Datenbank und liefert einen boole'schen Wert zurück, der angibt, ob die Antwort korrekt oder falsch war.
 
     ```C#
     private async Task<bool> StoreAsync(TriviaAnswer answer)
@@ -417,7 +424,7 @@ You will use the ASP.NET Scaffolding tools provided by Visual Studio to create t
     }
     ```
 
-12. Add the following **Post** action method to the **TriviaController** class. This action method associates the answer to the authenticated user and calls the **StoreAsync** helper method. Then, it sends a response with the Boolean value returned by the helper method.
+12. Fügen Sie folgende **Post** Action Methode zur **TriviaController** Klasse hinzu. Diese Action Method weist die Antwort dem angemeldeten User zu und ruft die **StoreAsync** Hilfsmethode auf. Im Anschluss liefert Sie eine Antwort mit dem boole'schen Wert der Hilfsmethode zurück.
 
     ```C#
     // POST api/Trivia
@@ -436,7 +443,7 @@ You will use the ASP.NET Scaffolding tools provided by Visual Studio to create t
     }
     ```
 
-13. Modify the Web API controller to restrict access to authenticated users by adding the **Authorize** attribute to the **TriviaController** class definition.
+13. Ändern Sie den Web API Controller dahingehend, dass Zugriffe nur durch authentifizierte User erfolgen dürfen, indem Sie das **Authorize** Attribut an die **TriviaController** Klassendefinition hängen.
 
     <!-- mark:1 -->
     ```C#
@@ -448,47 +455,47 @@ You will use the ASP.NET Scaffolding tools provided by Visual Studio to create t
 	```
 
 <a name="running-the-solution"></a>
-## Running the Solution
+## Ausführen der Solution
 
-In this task you will verify that the Web API service you built in the previous task is working as expected. You will use the Internet Explorer F12 Developer Tools to capture the network traffic and inspect the full response from the Web API service.
+In dieser Übung werden Sie überprüfen, ob die Web API, die Sie in der letzten Übung implementiert haben, wie gewünscht arbeitet. Sie werden die Internet Explorer F12 Entwicklertools dazu verwenden, den Netzwerk-Traffic zu überwachen und die Antwort des Web API Service zu untersuchen.
 
-> **Note:** Make sure that Internet Explorer is selected in the Start button located on the Visual Studio toolbar.
+> **Hinweis:** Stellen Sie sicher, dass der Internet Explorer in der Start Schaltfläche in der Visual Studio Toolbar eingestellt ist.
 
-> ![Internet Explorer option](./images/runInIE.png)
+> ![Internet Explorer als Standardbrowser](./images/runInIE.png)
 
-> _Internet Explorer option_
+> _Internet Explorer als Standardbrowser_
 
-1. Press **F5** to run the solution. The Log in page should appear in the browser.
+1. Drücken Sie **F5**, um die Solution auszuführen. Die Login Seite sollte am Bildschirm angezeigt werden.
 
-    > **Note:** When the application starts, the default MVC route is triggered, which by default is mapped to the Index action of the HomeController class. Since HomeController is restricted to authenticated users (remember that you decorated that class with the Authorize attribute previously) and there is no user authenticated yet, the application redirects the original request to the log in page.
+    > **Hinweis 1:** Wenn Die Anwendung startet, wird die voreingestellte MVC Route gewählt, welche per Default auf die Index Action der HomeController Klasse zeigt. Nachdem der HomeController auf angemeldete User zugriffsbeschränkt und noch kein User authentifiziert ist, leitet die Anwender den User auf die Login Seite weiter.
 	>
-	> **Note 2:** The first time you run the application locally you may be prompted to trust the IIS Express SSL certificate. If so, click Yes and then accept the installation of the certificate. IIS Express is a lightweight, self-contained version of IIS optimized for developers, that Visual Studio uses when debugging local web applications.
+	> **Hinweis 2:** Das erste Mal, wenn Sie die Anwendung lokal ausführen, werden Sie ggf. gefragt, ob Sie dem IIS Express SSL Zertifikat trauen. Wenn Sie dies tun, wählen Sie Yes und akzeptieren Sie die Installation des Zertifikats. IIS Express ist eine leichtgewichtige, self-contained Version von IIS, die für Entwickler optimiert wurde, die Web Anwendungen lokal debuggen wollen.
 
-2. Enter the Active Directory credentials.
+2. Geben Sie die Active Directory Credentials des oben angelegten Users an.
 
-    ![Running the solution](./images/AdSigninScreen.png)
+    ![AD Anmeldeseite](./images/AdSigninScreen.png)
 
-    _AD sign in screen_
+    _AD Anmeldeseite_
 
-3. After you have successfully logged in, the app will load the default action of the Home controller. Notice that the app shows the logged user at the top.
+3. Nachdem Sie sich erfolgreich angemeldet haben, lädt die Anwendung die Default Action des Home Controllers. Diese wiederum zeigt auf die Startseite. Beachten Sie, dass in der Menüleiste der angemeldete User angezeigt wird.
 
-    ![Running the solution](./images/runningTheApp.png)
+    ![Ausführen der Solution](./images/runningTheApp.png)
 
-    _Running the solution_
+    _Ausführen der Solution_
 
-4. Click the name of the signed-in user at the top right of the page.
+4. Klicken Sie auf den Namen des angemeldeten Users oben in der Menüleiste.
 
-	This will take you to the **User Profile** page, which is an action on the Home Controller. You will notice that the table contains user information about the administrator account you created earlier. This information is stored in your directory, and the Graph API is called to retrieve this information when the page loads.
+    Dies bringt Sie auf die **User Profile** Seite, welche eine Aktion des **UserProfileController**s ist. Beachten Sie, dass die Tabelle Infrmationen zum User, den Sie oben angelegt haben, enthält. Diese Information stammt aus dem Azure AD. Der Controller verwendet die Graph API, um die Informationen aus dem AD auszulesen.
 
-	> **Note:** The [Graph API](http://msdn.microsoft.com/en-us/library/azure/hh974476.aspx) is the programmatic interface used to perform CRUD and other operations on objects in your Azure AD directory. If you select an Organizational Account option for authentication when creating a new project in Visual Studio, your application will already be configured to call the Graph API.
+	> **Hinweis:** Die [Graph API](http://msdn.microsoft.com/en-us/library/azure/hh974476.aspx) ist die Programmierschnittstelle, mit der CRUD und andere Operationen auf Objekten in Ihrem Azure AD ausgeführt werden können.
 
-	![User Profile page](./images/UserProfilePage.png)
+	![User Profil Seite](./images/UserProfilePage.png)
 
-    _User Profile page_
+    _User Profil Seite_
 
-5. Go back to Visual Studio and expand the **Controllers** folder and then open the **HomeController.cs** file.
+5. Kehren Sie zu Visual Studio zurück und klappen Sie das Verzeichnis **Controllers** auf und öffnen Sie darin die **HomeController.cs** Datei.
 
-	You will see a **UserProfile()** action that contains code to retrieve a token and then call the Graph API. This code is duplicated below:
+	Dort finden Sie eine **UserProfile()** Action, die Code enthält, mit der ein Token beschafft und mit diesem dann die Graph API aufgerufen werden kann. Der Code sieht wie folgt aus:
 
 	<!-- mark:22 -->
 	```C#
@@ -519,72 +526,73 @@ In this task you will verify that the Web API service you built in the previous 
 	}
 	```
 
-	To call the Graph API, you first need to retrieve a token. When the token is retrieved, its string value must be appended in the Authorization header for all subsequent requests to the Graph API.
-
-	Most of the code above handles the details of authenticating to Azure AD to get a token, using the token to make a call to the Graph API, and then transforming the response so that it can be presented in the View.
-	The most relevant portion for discussion is the following line:
+	Um die Graph API aufrufen zu können, benötigen Sie zunächst ein Token. Nachdem dieses beschafft wurde, muss dessen String-Wert in den Authorization-Header aller Folgeaufrufe an die Graph API eingefügt werden.
+    
+    Der größte Teil des Codes oben dient dazu, sich beim Azure AD anzumelden, um unter Übergabe des Authentifizierungstoken einen Zugriffstoken zu erhalten. Die wichtigste Zeile ist die folgende:
 
 	`UserProfile profile = JsonConvert.DeserializeObject<UserProfile>(responseString);`
 
-	This line represents the name of the user, which has been deserialized from the JSON response and is presented in the View.
-You can call the Graph API using HttpClient and handle the raw data yourself, but an easier way is to use the [Graph Client Library](http://www.nuget.org/packages/Microsoft.Azure.ActiveDirectory.GraphClient/) which is available via NuGet. The Client Library handles the raw HTTP requests and the transformation of the returned data for you, and makes it much easier to work with the Graph API in a .NET environment. See the related Graph API code samples on [GitHub](https://github.com/AzureADSamples).
+    In dieser Zeile wird das Benutzerprofil aus dem in JSON formatierten Response-Objekt extrahiert.
 
-6. Switch back to the browser and browse back to the home page of the application.
-7. In the browser, press **F12** to open the Developer Tools panel. Press **CTRL + 4** or click the Network icon, and then click the green play button to begin capturing network traffic.
+    Sie können die Graph API mit beliebigen HttpClients aufrufen und die Rohdaten selbst auswerten. Einfacher sind die Zugriffe mit Hilfe der [Graph Client Library](http://www.nuget.org/packages/Microsoft.Azure.ActiveDirectory.GraphClient/), die via NuGet verfügbar ist. Die Client Library übernimmt die Auswertung der rohen HTTP Requests und die Umwandlung der zurückgegebenen Daten und vereinfacht die Interaktion mit der Graph API aus einer .NET Umgebung heraus maßgeblich. Codebeispiele und weitere Dokumentation zur Graph API findet sich auch auf [GitHub](https://github.com/AzureADSamples).
 
-    ![Initiating Web API network capture](./images/InitiatingWebApiNetworkCapture.png)
+6. Wechseln Sie zurück zum Browser und navigieren Sie zurück zur Homepage.
 
-    _Initiating Web API network capture_
+7. Wählen Sie im Browser die Option **F12**, um die Entwicklertools zu öffnen. Drücken Sie **CTRL+4** oder das Netzwerk-Icon und aktivieren Sie den grünen Play-Button, um den Netzwerkverkehr aufzuzeichnen.
 
-8. Append _api/trivia_ to the URL in the browser's address bar and hit **Enter**. You will now inspect the details of the response from the Get action method in TriviaController.
+    ![Starten des Capturings des Web API Netzwerk Traffics](./images/InitiatingWebApiNetworkCapture.png)
 
-    ![Retrieving the next question data through Web API](./images/RetrievingTheNextQuestionDataWebApi.png)
+    _Starten des Capturings des Web API Netzwerk Traffics_
 
-    _Retrieving the next question data through Web API_
+8. Hängen Sie an den URL im Browser die Zeichenfolge _api/trivia_ und bestätigen Sie mit **Enter**. Jetzt können Sie die Details der Rückgabe der GET Action Methode des TriviaControllers einsehen.
 
-	> **Note:** Once the download finishes, you will be prompted to make an action with the downloaded file. Leave the dialog box open in order to be able to watch the response content through the Developers Tool window.
+    ![Ermitteln der nächsten Frage durch die Web API](./images/RetrievingTheNextQuestionDataWebApi.png)
 
-9. Now you will inspect the body of the response. To do this, click the **Details** tab and then click **Response body**.
+    _Ermitteln der nächsten Frage durch die Web API_
 
-	You can check that the downloaded data is an object with the properties options (which is a list of TriviaOption objects), id and title that correspond to the TriviaQuestion class.
+	> **Hinweis:** Sobald der Download abgeschlossen ist, werden Sie gefragt, was Sie mit der heruntergeladenen Datei machen möchten. Lassen Sie den Dialog offen, damit Sie den Inhalt der Antwort untersuchen können.
 
-    ![Viewing Web API Response Body](./images/ViewingWebApiResponseBody.png)
+9. Untersuchen Sie jetzt den Body der Antwort. Klicken Sie hierzu auf den **Details** Tab und dort dann auf **Body**.
 
-    _Viewing Web API Response Body_
+	Sie können sich die heruntergeladenen Daten ansehen. Diese bestehen aus einer Frage sowie zugehörigen Antwortmöglichkeiten.
 
-10. Go back to Visual Studio and press **SHIFT + F5** to stop debugging.
+    ![Anzeige des Web API Response Body](./images/ViewingWebApiResponseBody.png)
+
+    _Anzeige des Web API Response Body_
+
+10. Kehren Sie zu Visual Studio zurück und drücken Sie **SHIFT + F5**, um das Debugging zu stoppen.
 
 <a name="creating-the-spa-interface-using-angularjs"></a>
-## Creating the SPA Interface Using AngularJS
+## Erstellen des SPA Interface mit Hilfe von AngularJS
 
-In this task you will use **AngularJS** to implement the client side of the Geek Quiz application. **AngularJS** is an open-source JavaScript framework that augments browser-based applications with Model-View-Controller (MVC) capability, facilitating both development and testing.
+In dieser Übung verwenden Sie **AngularJS**, um den Client für die GeekQuiz Anwendung zu implementieren. **AngularJS** ist ein Open-Source JavaScript Framework, welches Browser-basierte Anwendungen um die Möglichkeiten des Model-View-Controller-Ansatzes (MVC) erweitert.
 
-You will start by installing AngularJS from Visual Studio's **Package Manager Console**. Then, you will create the controller to provide the behavior of the Geek Quiz app and the view to render the quiz questions and answers using the AngularJS template engine.
+Zunächst werden Sie AngularJS über die Visual Studio **Package Manager Console** installieren. Danach werden Sie einen Controller erstellen, der die Funktionalität der GeekQuiz App umsetzt, d.h. die Anzeige von Quiz-Fragen und -Antworten über die AngularJS Template Engine.
 
-> **Note:** For more information about AngularJS, refer to http://angularjs.org/.
+> **Hinweis:** Für weitere Informationen zu AngularJS, siehe [http://angularjs.org/](http://angularjs.org/).
 
-1. Open the **Package Manager Console** from **Tools | Nuget Package Manager | Package Manager Console**. Type the following command to install the **AngularJS.Core** NuGet package.
+1. Öffnen Sie die **Package Manager Console** über das Menü **Tools | Nuget Package Manager | Package Manager Console**. Tippen Sie das folgende Kommando, um das **AngularJS.Core** NuGet Package zu installieren.
 
     ```C#
     Install-Package AngularJS.Core
     ```
-Wait until the package is downloaded and installed.
+    Warten Sie, bis das Package heruntergeladen und installiert ist.
 
-2. In the **Solution Explorer**, right-click the **Scripts** folder of the **GeekQuiz** project and select **Add | New Folder**. Name the folder **app** and press **Enter**.
+2. Im **Solution Explorer** klicken Sie mit der rechten Maustaste auf das **Scripts** Verzeichnis des **GeekQuiz** Projekts und wählen Sie den Menüpunkt **Add | New Folder**. Benennen Sie das Verzeichnis **app** und bestätigen Sie mit **Enter**.
 
-3. Right-click the **app** folder you just created and select **Add | JavaScript** File.
+3. Klicken Sie mit der rechten Maustaste auf das **app** Verzeichnis und wählen Sie den Menüpunkt **Add | JavaScript File**.
 
-    ![Adding a new JavaScript file](./images/add-javascript-file.png)
+    ![Hinzufügen einer JavaScript Datei](./images/add-javascript-file.png)
 
-    _Adding a new JavaScript file_
+    _Hinzufügen einer JavaScript Datei_
 
-4. In the **Specify Name for Item** dialog box, type _quiz-controller_ in the Item name text box and click OK.
+4. In der **Specify Name for Item** Eingabemaske geben Sie als Namen _quiz-controller_ ein und bestätigen Sie mit **OK**.
 
-    ![Naming the new JavaScript file](./images/add-javascript-controller.png)
+    ![Benennung der JavaScript Datei](./images/add-javascript-controller.png)
 
-    _Naming the new JavaScript file_
+    _Benennung der JavaScript Datei_
 
-5. In the **quiz-controller.js** file, add the following code to declare and initialize the AngularJS **QuizCtrl** controller.
+5. Fügen Sie in der Datei **quiz-controller.js** den folgenden Code hinzu, um den AngularJS **QuizCtrl** Controller zu deklarieren und zu initialisieren.
 
     <!-- mark:1-12 -->
     ```JS
@@ -602,11 +610,11 @@ Wait until the package is downloaded and installed.
         });
     ```
 
-	> **Note:** The constructor function of the **QuizCtrl** controller expects an injectable parameter named **$scope**. The initial state of the scope should be set up in the constructor function by attaching properties to the **$scope** object. The properties contain the **view model**, and will be accessible to the template when the controller is registered.
+	> **Hinweis:** Der Konstruktor des **QuizCtrl** Controllers erwartet einen Parameter namens **$scope**. Der initiale Zustand des Scopes sollte in der Konstruktor-Funktion eingerichtet werden, in dem zum **$scope** Objekt Properties hinzugefügt werden. Diese Properties enthalten das **view model**. Sie werden durch die Vorlage zugreifbar sein, wenn der Controller registriert ist.
 
-	The **QuizCtrl** controller is defined inside a module named **QuizApp**. Modules are units of work that let you break your application into separate components. The main advantages of using modules is that the code is easier to understand and facilitates unit testing, reusability and maintainability.
+    Der **QuizCtrl** Controller  ist innerhalb eines Moduls namens **QuizApp** definiert. Module sind Arbeitseinheiten, die es ermöglichen, die Anwendung in einzelne Komponenten zu unterteilen. Der Hauptvorteil der Verwendung von Modulen liegt in der besseren Lesbarkeit und Verständlichkeit und den besseren Möglichkeiten zum Testen, Wiederverwenden und Warten.
 
-6. You will now add behavior to the scope in order to react to events triggered from the view. Add the following code at the end of the **QuizCtrl** controller, to define the **nextQuestion** function in the **$scope** object.
+6. Fügen Sie nun Verhalten zu dem Scope, um auf Ereignisse aus dem View reagieren zu können. Fügen Sie hierzu folgenden Code an das Ende des **QuizCtrl** Controllers, um die Funktion **nextQuestion** im **$scope** Objekt zu definieren.
 
     <!-- mark:4-19 -->
     ```JS
@@ -632,9 +640,9 @@ Wait until the package is downloaded and installed.
     };
     ```
 
-	> **Note:** This function retrieves the next question from the **Trivia** Web API created in the previous task and attaches the question data to the **$scope** object.
+	> **Hinweis:** Diese Funktion holt die nächste Frage von der **Trivia** Web API und fügt die Daten der Frage in das **$scope** Objekt ein.
 
-7. Insert the following code at the end of the **QuizCtrl** controller to define the **sendAnswer** function in the **$scope** object.
+7. Fügen Sie folgenden Code ans Ende des **QuizCtrl** Controllers, um die **sendAnswer** Funktion in das **$scope** Objekt einzufügen.
 
     <!-- mark:4-15 -->
     ```JS
@@ -656,11 +664,11 @@ Wait until the package is downloaded and installed.
     };
     ```
 
-	> **Note:** This function sends the answer selected by the user to the **Trivia** Web API and stores the result –i.e. if the answer is correct or not– in the **$scope** object.
+	> **Hinweis:** Diese Funktion sendet die vom User ausgewählte Anwort an die **Trivia** Web API und speichert das Ergebnis, d.h. ob die Antwort richtig oder falsch war, im **$scope** Objekt.
 
-	The **nextQuestion** and **sendAnswer** functions, added in the previous steps, use the AngularJS **$http** object to abstract the communication with the Web API via the XMLHttpRequest JavaScript object from the browser. AngularJS supports another service that brings a higher level of abstraction to perform CRUD operations against a resource through RESTful APIs. The AngularJS **$resource** object has action methods which provide high-level behaviors without the need to interact with the **$http** object. Consider using the **$resource** object in scenarios that requires the CRUD model (for more information, see the [$resource documentation](http://docs.angularjs.org/api/ngResource/service/$resource)).
+    Die beiden Funktionen **nextQuestion** und **sendAnswer**, die Sie in den letzten Schritten hinzugefügt haben, verwenden das **$http** Objekt von AngularJS, um von der Communikation des Browsers mit der Web API via XMLHttpRequest JavaScript-Objekt zu abstrahieren. AngularJS unterstützt einen weiteren Service, der eine höhere Abstrahierung zur Durchführung von CRUD Operationen einer RESTful API bietet. Das AngularJS **$resource** Objekt hat Action Methoden, die von der direkten Verwendung des **$http** Objekts abstrahieren. Sie sollten das **$resource** Objekt in Szenarien verwenden, bei denen ein CRUD Modell zum Einsatz kommt (für weitere Informationen siehe die [Dokumentation des $resource Objekts](http://docs.angularjs.org/api/ngResource/service/$resource)).
 
-8. The next step is to create the AngularJS template that defines the view for the quiz. To do this, open the **Index.cshtml** file inside the **Views | Home** folder and replace the content with the following code.
+8. Der nächste Schritt dient dazu, das AngularJS Template, das den View für das Quiz definiert. Öffnen Sie hierzu die Datei **Index.cshtml** im Verzeichnis **Views | Home** und ersetzen Sie deren Inhalt durch folgenden Code.
 
 	```HTML
     @{
@@ -696,13 +704,13 @@ Wait until the package is downloaded and installed.
     }
     ```
 
-	> **Note:** The AngularJS template is a declarative specification that uses information from the model and the controller to transform static markup into the dynamic view that the user sees in the browser. The following are examples of AngularJS elements and element attributes that can be used in a template:
-	* The **ng-app** directive tells AngularJS the DOM element that represents the root element of the application.
-	* The **ng-controller** directive attaches a controller to the DOM at the point where the directive is declared.
-	* The curly brace notation **{{ }}** denotes bindings to the scope properties defined in the controller.
-	* The **ng-click** directive is used to invoke the functions defined in the scope in response to user clicks.
+	> **Hinweis:** Das AngularJS Template ist eine deklarative Spezifikation, die Informationen aus dem Model verwendet und den Controller dazu verwendet, das statische Markup in die dynamische Ansicht, die der User im Browser angezeigt bekommt, zu transformieren. Im folgenden Beispiele für AngularJS Elemente und Elementattribute, die in einem Template verwendet werden können:
+	* Die **ng-app** Direktive kennzeichnet für AngularJS das DOM Element, welches das Root-Element der Anwendung ist.
+	* Die **ng-controller** Direktive hängt einen Controller in das DOM an dem Punkt, an dem die Direktive deklariert ist.
+	* Die geschweiften Klammern **{{ }}** beschreiben Bindinge zu Scope Properties im Controller.
+	* Die **ng-click** Direktive wird dazu verwendet, Funktionen im Scope als Reaktion auf Benutzer-Clicks zu definieren.
 
-10. Open the **Site.css** file inside the **Content** folder and add the following styles at the end of the file, to provide a look and feel for the quiz view.
+9. Öffnen Sie die Datei **Site.css** im Verzeichnis **Content** und fügen Sie die folgenden Styles ans Dateiende, um die Oberfläche für den Quiz View zu gestalten.
 
 	```CSS
     .validation-summary-valid {
@@ -750,54 +758,54 @@ Wait until the package is downloaded and installed.
 	```
 
 <a name="running-the-single-page-application"></a>
-## Running the Single Page Application
+## Ausführen der Single Page Application
 
-In this task you will execute the solution using the new user interface you built with AngularJS to answer some of the quiz questions.
+In dieser Übung führen Sie die Solution mit der via AngularJS neu gestalteten Benutzeroberfläche aus und beantworten einige der Quiz-Fragen.
 
-1. Press **F5** to run the solution.
+1. Drücken Sie **F5**, um die Solution zu starten.
 
-2. Enter your Active Directory credentials to log in.
+2. Geben Sie Ihre Active Directory Credentials zur Anmeldung ein.
 
-3. The Home page should appear, showing the first question of the quiz. Answer the question by clicking one of the options. This will trigger the sendAnswer function defined earlier, which sends the selected option to the Trivia Web API.
+3. Die Startseite sollte angezeigt werden und die erste Frage anzeigen. Beantworten Sie die Frage durch Auswahl einer Optionen. Dies ruft die sendAnswer Funktion auf, welche die ausgewählte Option an die Trivia Web API schickt.
 
-    ![Answering a question](./images/AnsweringQuestion.png)
+    ![Beantwortung einer Frage](./images/AnsweringQuestion.png)
 
-    _Answering a question_
+    _Beantwortung einer Frage_
 
-4. After clicking one of the buttons, the answer should appear. Click **Next Question** to show the following question. This will trigger the nextQuestion function defined in the controller.
+4. Nach Auswahl einer Alternative sollte die Auswertung angezeigt werden. Wählen Sie **Next Question** zur Anzeige der nächsten Frage. Dies ruft die Funktion nextQuestion im Controller auf.
 
-    ![Requesting the next question](./images/RequestingNextQuestion.png)
+    ![Anforderung der nächsten Frage](./images/RequestingNextQuestion.png)
 
-    _Requesting the next question_
+    _Anforderung der nächsten Frage_
 
-5. The next question should appear. Continue answering questions as many times as you want. After completing all the questions you should return to the first question.
+5. Die nächste Frage sollte angezeigt werden. 
 
-    ![Next question](./images/NextQuestion.png)
+    ![Anzeige der nächsten Frage](./images/NextQuestion.png)
 
-    _Next question_
+    _Anzeige der nächsten Frage_
 
-6. Go back to Visual Studio and press **SHIFT + F5** to stop debugging.
+6. Kehren Sie zu Visual Studio zurück und drücken Sie **SHIFT + F5**, um das Debugging zu beenden.
 
 <a name="creating-a-flip-animation-using-css3"></a>
-## Creating a Flip Animation Using CSS3
+## Erstellen einer Flip Animation mit Hilfe von CSS3
 
-In this task you will use CSS3 properties to perform rich animations by adding a flip effect when a question is answered and when the next question is retrieved.
+In dieser Übung werden Sie CSS3 Properties dazu verwenden, Animationen einzubauen, indem ein Flip-Effekt ausgelöst wird, wenn eine Frage beantwortet und eine neue Frage ausgegeben wird.
 
-1. In **Solution Explorer**, right-click the **Content** folder of the **GeekQuiz** project and select **Add | Existing Item...**.
+1. Klicken Sie im **Solution Explorer** mit der rechten Maustaste das Verzeichnis **Content** des **GeekQuiz** Projekts und wählen Sie den Menüpunkt **Add | Existing Item...**.
 
-    ![Adding an existing item to the Content folder](./images/add-content.png)
+    ![Hinzufügen eines neuen Elements zum Verzeichnis Content](./images/add-content.png)
 
-    _Adding an existing item to the Content folder_
+    _Hinzufügen eines neuen Elements zum Verzeichnis Content_
 
-2. In the **Add Existing Item** dialog box, navigate to the **Source/css** folder and select **Flip.css**. Click **Add**.
+2. Navigieren Sie in der Eingabemaske **Add Existing Item** zum Verzeichnis **Source/css** und wählen Sie die Datei **Flip.css**. Bestätigen Sie mit **Add**.
 
-    ![Adding the Flip.css file from Assets](./images/add-content-dialog.png)
+    ![Hinzufügen der Datei Flip.css](./images/add-content-dialog.png)
 
-    _Adding the Flip.css file from Assets_
+    _Hinzufügen der Datei Flip.css_
 
-3. Open the **Flip.css** file you just added and inspect its content.
+3. Öffnen Sie die Datei **Flip.css** und sehen Sie sich ihren Inhalt an.
 
-4. Locate the **flip transformation** comment. The styles below that comment use the CSS **perspective** and **rotateY** transformations to generate a "card flip" effect.
+4. Gehen Sie zum Kommentar **flip transformation**. Die darunter stehenden Styles erzeugen einen "card flip" Effekt.
 
     ```CSS
     /* flip transformation */
@@ -831,9 +839,9 @@ In this task you will use CSS3 properties to perform rich animations by adding a
 	}
     ```
 
-5. Locate the **hide back of pane during flip** comment.
+5. Suchen Sie den Kommentar **hide back of pane during flip**.
 
-	The style rule below the comment hides the back-side of the faces when they are facing away from the viewer by setting the **backface-visibility** CSS property to hidden.
+    Die Style-Regel versteckt die Rückseite der Karten.
 
     ```CSS
     /* hide back of pane during flip */
@@ -844,7 +852,7 @@ In this task you will use CSS3 properties to perform rich animations by adding a
     }
     ```
 
-6. Open the **BundleConfig.cs** file inside the **App_Start** folder and add the reference to the **Flip.css** file in the **"~/Content/css"** style bundle.
+6. Öffnen Sie die Datei **BundleConfig.cs** im Verzeichnis **App_Start** und fügen Sie eine Referenz zur Datei **Flip.css** im **"~/Content/css"** Style Bundle hinzu.
 
     ```C#
     bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -853,53 +861,53 @@ In this task you will use CSS3 properties to perform rich animations by adding a
         "~/Content/Flip.css"));
     ```
 
-7. Press **F5** to run the solution and log in with your credentials.
+7. Drücken Sie **F5**, um die Anwendung zu starten und melden Sie sich mit Ihren Credentials an.
 
-8. Answer a question by clicking one of the options. Notice the flip effect when transitioning between views.
+8. Beantworten Sie eine Frage und beachten Sie die folgende Flip Animation.
 
-    ![Answering a question with the flip effect](./images/answering-a-question-with-the-flip-effect.png)
+    ![Beantwortung einer Frage mit Flip Effekt](./images/answering-a-question-with-the-flip-effect.png)
 
-    _Answering a question with the flip effect_
+    _Beantwortung einer Frage mit Flip Effekt_
 
-9. Click **Next Question** to retrieve the following question. The flip effect should appear again.
+9. Wählen Sie **Next Question** um zur folgnden Frage weiterzugehen. Der Flip Effekt sollte wieder ausgeführt werden.
 
-    ![Retrieving the following question with the flip effect](./images/retriving-the-following-question-with-the-fli.png)
+    ![Ermittlung der nächsten Frage mit Flip Effekt](./images/retriving-the-following-question-with-the-fli.png)
 
-    _Retrieving the following question with the flip effect_
+    _Ermittlung der nächsten Frage mit Flip Effekt_
 
-10. Go back to Visual Studio and press **SHIFT + F5** to stop debugging.
+10. Kehren Sie zu Visual Studio zurück und beenden Sie das Debuggen mittels **SHIFT + F5**.
 
 
 <a name="deploying-the-app-to-azure"></a>
-## Deploying the Application to Azure
+## Deployment der Anwendung nach Azure
 
-The following steps will show you how to deploy the application to Azure as an App Service Web App. In the earlier steps, you connected your new project with an App Service Web App, so it's ready to be published easily.
+Die folgenden Schritte werden Ihnen zeigen, wie die Anwendung nach Azure in eine App Service Web App deployt werden kann. In Schritten weiter oben haben Sie Ihr Projekt bereits mit einer App Service App verbunden, weshalb das Publishing jetzt sehr einfach geht.
 
-1. In Visual Studio, right-click on the project and select **Publish**.
+1. Klicken Sie in Visual Studio mit der rechten Maustaste auf das Projekt und wählen Sie den Menüpunt **Publish**.
 
-	The **Publish Web** dialog will appear with each setting already configured.
+	Die Eingabemaske **Publish Web** wird angezeigt. Darin sind einige Parameter bereits vorbelegt.
 
-1. Click on the **Next** button to go to the **Settings** page. You may be prompted to authenticate; make sure you authenticate using your Azure subscription account (typically a Microsoft account) and not the organizational account you created earlier.
+2. Wählen Sie die Schaltfläche **Next**, um zur Seite **Settings** zu gelangen. Es kann sein, dass Sie zur Eingabe eines Benutzernamens und Passwort aufgefordert werden. Geben Sie dann die Credentials der Azure Subscription ein und nicht die Daten des Azure AD.
 
-    ![Publish Web dialog - Connection tab](./images/publish-web-dialog-connection-tab.png)
+    ![Publish Dialog - der Connection Tab](./images/publish-web-dialog-connection-tab.png)
 
-    _Publish Web dialog - Connection tab_
+    _Publish Dialog - der Connection Tab_
 
-2. Check the **Enable Organizational Authentication** option. In the **Domain** field, enter the domain for your directory. From the **Access Level** drop-down, select **Single Sign On, Read directory data**. You will notice that the previous database you used is already populated in the **Databases** section. Click **Publish**.
+3. Markieren Sie die Option **Enable Organizational Authentication**. Tragen Sie in das Feld **Domain** den Domain-Namen des AD Verzeichnisses ein. Markieren Sie die Option **Read directory data**. Beachten Sie, dass im Abschnitt **Databases** bereits der Connection String der Cloud Datenbank eingetragen ist. Sollte dies nicht der Fall sein, ermitteln Sie über das **Management Portal** den Connection String und tragen Sie ihn hier ein. Bestätigen Sie mit **Publish**.
 
-    ![Publish Web dialog - Settings tab](./images/publish-web-dialog-settings-tab.png)
+    ![Publish Dialog - Settings Tab](./images/publish-web-dialog-settings-tab.png)
 
-    _Publish Web dialog - Settings tab_
+    _Publish Dialog - Settings Tab_
 
-3. Visual Studio will begin deploying your website, and then a new browser window will appear. You may be prompted to authenticate to your directory once again.
+4. Visual Studio deployt daraufhin die Website. Nach Abschluss des Deployments erscheint ein Browser Fenster. Dieses fordert Sie zum Anmelden auf.
 
-	Once you've authenticated, you'll be redirected to your newly published website on Azure.
+	Sobald Sie sich authentifiziert haben, werden Sie auf die Startseite der neu veröffentlichten Web App auf Azure geleitet.
 
-    ![Geek Quiz published in Azure](./images/geek-quiz-published.png)
+    ![Geek Quiz auf Azure](./images/geek-quiz-published.png)
 
-    _Geek Quiz published in Azure_
+    _Geek Quiz auf Azure_
 
-4. If you get an error when running the app in Azure, replace the code in the _Views\Shared\\_LoginPartial.cshtml_ file with the following and publish the project again.
+5. Falls Sie eine Fehlermeldung erhalten, ersetzen Sie den Code in der Datei _Views\Shared\\_LoginPartial.cshtml_ durch den folgenden Code und publizieren Sie das Projekt erneut.
 
 	<!-- mark:1-8,15 -->
 	```HTML
@@ -933,62 +941,46 @@ The following steps will show you how to deploy the application to Azure as an A
 	}
 	```
 
-	> **Note:** After running the app, if the logged in user shows "Null User", sign out, and sign back in with the Active Directory account you created earlier.
+	> **Note:** Wenn Sie nun die Anwendung neu starten und als Anwender "Null User" angezeigt wird, melden Sie sich ab und erneut mit dem Azure AD User wieder an.
 
 <a name="cleanup"></a>
-## Appendix - Cleanup
+## Anhang
 
-In this task you will learn how to delete the resources created created in the previous sections. These are:
+In dieser Übung lernen Sie, wie Sie die oben erstellten Ressourcen wieder löschen. Dies sind:
 
-* a Web App
-* a global account
+* die Web App
+* der globale Account
 
-To delete the Web App follow these steps:
+Um die Web App zu löschen führen Sie folgende Schritte durch:
 
-1. In your browser, go to [http://manage.windowsazure.com](http://manage.windowsazure.com), and sign in with your Azure credentials.
+1. Rufen Sie im Browser [http://portal.azure.com](http://portal.azure.com) auf und melden Sie sich mit Ihrem Azure Account an.
 
-2. In the **All Items** page, select your Web App by clicking the corresponding row.
+2. Wählen Sie den Menüpunkt **Resource Groups**.
 
-3. Click **DELETE** in the bottom bar.
+    ![Anzeige der Resourcengruppen](images/selectResourceGroups.png?raw=true)
 
-	![Clicking Delete Web App](images/clicking-delete-website.png?raw=true)
+    _Anzeige der Resourcengruppen_
 
-	_Clicking Delete to delete Web App_
+3. Wählen Sie die zuvor angelegte Resoucengruppe aus und wählen Sie **DELETE** in der Kommandozeile.
 
-4. In the **Delete Confirmation** dialog, check the check box to delete the database associated to the Web App and click the checkmark button.
+	![Löschen der Resourcengruppe](images/deleteResourceGroup.png?raw=true)
 
-	Once the resources are deleted you will see a notification in the bottom bar.
+	_Löschen der Resourcengruppe_
 
-You can delete the global user account by following these steps:
+4. Geben Sie im Bestätigungsdialog erneut den Namen der Ressourcengruppe ein und bestätigen Sie mit **Delete**.
 
-1. Navigate to the **Active Directory** page and click your directory.
+Darüber hinaus können Sie über das Management-Portal ([http://manage.windowsazure.com](http://manage.windowsazure.com)) das Azure AD Verzeichnis löschen.
 
-1. Once in the directory page, click **Users** from the top bar, and then click the user you want to delete. This should select the user row.
+## Zusammenfassung
 
-1. Click **Delete** in the bottom bar.
+Nach Beendigung dieses Labs haben Sie folgendes gelernt:
 
-	![Clicking Delete in the bottom bar](images/clicking-delete-in-the-bottom-bar.png?raw=true)
-
-	_Clicking Delete to delete the user_
-
-1. Click **Yes** in the confirmation prompt that opens.
-
-	![Confirmation of the deletion of a user](images/confirmation-of-the-deletion-of-a-user.png?raw=true)
-
-	_Confirmation of the deletion of a user_
-
-The user will be deleted. You should see a notification confirming it.
-
-## Summary
-
-By completing this lab you have learned how to:
-
-* Create a Global Account Administrator user in Azure Active Directory
-* Create an ASP.NET Web API controller using ASP.NET Scaffolding
-* The Graph API works
-* Implement a Web API Get action to retrieve the next quiz question
-* Implement a Web API Post action to store the quiz answers
-* Install AngularJS from the Visual Studio Package Manager Console
-* Implement AngularJS templates and controllers
-* Use CSS3 transitions to perform animation effects
-* Deploy your application to Microsoft Azure
+* Erstellen eines globalen Account Administrators im Azure Active Directory
+* Erstellen eines ASP.NET Web API Controllers via ASP.NET Scaffolding
+* Die Graph API
+* Implementierung einer Web API Get Action, um die nächste Quiz-Frage zu ermitteln
+* Implementierung eienr Web API Post Action, um die Quiz-Antwort zu speichern
+* Installation von AngularJS über die Visual Studio Package Manager Console
+* Implementierung von AngularJS Templates und Controller
+* Verwendung von CSS3 Transitions, um Animationseffekte einzubinden
+* Deployment der Anwendung nach Microsoft Azure
