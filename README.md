@@ -33,7 +33,7 @@
                 <tr>
                     <td rowspan="3">09:00</td>
                     <td rowspan="3">Einleitung & Setup</td>
-                    <td>[Presentation](Presentation/Keynote/Keynote.pptx) | [Demos](Presentation/Keynote/)</td>
+                    <td>[Presentation](Presentation/Keynote/Keynote.pdf) | [Demos](Presentation/Keynote/)</td>
                 </tr>
                 <tr>
                     <td>[HOL: Arbeiten mit dem Management Portal](HOL/working-with-the-management-portal/)</td>
