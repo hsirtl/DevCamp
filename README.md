@@ -88,6 +88,10 @@
                 <tr>
                     <td>[HOL: IaaS](HOL/create-virtual-machine/)</td>
                 </tr>
+                <tr>
+                    <td>16:30</td>
+                    <td colspan="2">Workshop Ende</td>
+                </tr>
                </table>
             </div>
          </div>
