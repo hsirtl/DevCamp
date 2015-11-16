@@ -83,7 +83,7 @@
                 <tr>
                     <td rowspan="2">15:30</td>
                     <td rowspan="2">Azure IaaS</td>
-                    <td>[Presentation](Presentation/IaaS/IaaS.pptx) | [Demos](Presentation/IaaS/)</td>
+                    <td>[Presentation](Presentation/IaaS/IaaS.pdf) | [Demos](Presentation/IaaS/)</td>
                 </tr>
                 <tr>
                     <td>[HOL: IaaS](HOL/create-virtual-machine/)</td>
