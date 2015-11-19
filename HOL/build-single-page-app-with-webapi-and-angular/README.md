@@ -101,7 +101,7 @@ In dieser Übung werden Sie ein neues ASP.NET MVC Projekt mit ASP.NET Web API Su
 
 2. In der Eingabemaske **New Project**, wählen Sie den Eintrag **ASP.NET Web Application** im **Visual C# | Web** Tab. Stellen Sie sicher, dass **.NET Framework 4.5** (oder höher) ausgewählt ist, benennen Sie das Projekt _GeekQuiz_ , wählen Sie eine **Location** und bestätigen Sie mit **OK**.
 
-	> **Note:** You may also want to uncheck the **Add Application Insights to Project** if you don't want the functionality for your application.
+	> **Hinweis:** Falls Sie Applications Insights nicht verwenden wollen, entfernen Sie den Haken bei **Add Application Insights to Project**.
 
     ![Erstellen eines neuen ASP.NET Web Application Projekts](./images/newProject-dialog.png)
 
@@ -137,7 +137,7 @@ In dieser Übung werden Sie ein neues ASP.NET MVC Projekt mit ASP.NET Web API Su
 
     _Anmeldung beim Azure Active Directory_
 
-6. Nach erfolgreicher Anmeldung erscheint die **New ASP.NET Project** Eingebemaske dialog will show your authentication choice (**Organizational Auth**) and the directory where the new application will be registered (_your_account_name_.onmicrosoft.com in the image below). Check the box for **Web API**. Click **OK**.
+6. Nach erfolgreicher Anmeldung erscheint die **New ASP.NET Project** Eingabemaske dialog will show your authentication choice (**Organizational Auth**) and the directory where the new application will be registered (_your_account_name_.onmicrosoft.com in the image below). Check the box for **Web API**. Click **OK**.
 
 7. Die **Configure Microsoft Azure Web App** Eingabemaske erscheint. Darin ist ein automatisch generierter Name für die Web App sowie eine ausgewählte Region enthalten. Beachten Sie den Account, mit dem Sie an die Maske angemeldet sind. Dies sollte ein Account sein, er Ihrer Azure Subscription zugeordnet ist. Üblicherweise ist dies ein Microsoft Account.
 
@@ -957,13 +957,13 @@ Um die Web App zu löschen führen Sie folgende Schritte durch:
 
 2. Wählen Sie den Menüpunkt **Resource Groups**.
 
-    ![Anzeige der Resourcengruppen](images/selectResourceGroups.png?raw=true)
+    ![Anzeige der Resourcengruppen](images/selectResourceGroups.png)
 
     _Anzeige der Resourcengruppen_
 
 3. Wählen Sie die zuvor angelegte Resoucengruppe aus und wählen Sie **DELETE** in der Kommandozeile.
 
-	![Löschen der Resourcengruppe](images/deleteResourceGroup.png?raw=true)
+	![Löschen der Resourcengruppe](images/deleteResourceGroup.png)
 
 	_Löschen der Resourcengruppe_
 
