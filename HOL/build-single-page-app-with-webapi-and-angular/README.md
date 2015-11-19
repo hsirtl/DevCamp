@@ -984,3 +984,11 @@ Nach Beendigung dieses Labs haben Sie folgendes gelernt:
 * Implementierung von AngularJS Templates und Controller
 * Verwendung von CSS3 Transitions, um Animationseffekte einzubinden
 * Deployment der Anwendung nach Microsoft Azure
+
+## Fehlerbehebung bzgl. Default Connection ##
+
+    
+    <connectionStrings>
+        <add name="DefaultConnection" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-WebApplication2-20151105055701.mdf;Initial Catalog=aspnet-WebApplication2-20151105055701;Integrated Security=True" providerName="System.Data.SqlClient" />
+    </connectionStrings>
+
